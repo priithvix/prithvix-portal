@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrithviX — Government Compliance Registers</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1c1917;
+  --ink-2: #44403c;
+  --ink-3: #78716c;
+  --ink-4: #a8a29e;
+  --rule: #e7e5e4;
+  --rule-strong: #d6d3d1;
+  --bg: #faf9f7;
+  --bg-form: #ffffff;
+  --bg-header: #1c1917;
+  --bg-col-head: #292524;
+  --accent: #16a34a;
+  --accent-2: #15803d;
+  --accent-pale: #f0fdf4;
+  --warn: #b45309;
+  --warn-pale: #fffbeb;
+  --danger: #dc2626;
+  --danger-pale: #fef2f2;
+  --info: #1d4ed8;
+  --info-pale: #eff6ff;
+  --gold: #92400e;
+  --mono: 'JetBrains Mono', monospace;
+  --serif: 'Playfair Display', serif;
+  --sans: 'Source Sans 3', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── NAV ─── */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: var(--bg-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 52px;
+  border-bottom: 1px solid #333;
+}
+.brand {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+.brand em { color: var(--accent); font-style: normal; }
+.nav-links { display: flex; gap: 4px; }
+.nav-link {
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #a8a29e;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: all 0.15s;
+  font-family: var(--mono);
+}
+.nav-link:hover { background: #333; color: #fff; }
+
+/* ─── HERO BAND ─── */
+.hero {
+  background: var(--bg-header);
+  padding: 40px 40px 36px;
+  color: white;
+  border-bottom: 3px solid var(--accent);
+}
+.hero-inner { max-width: 1200px; margin: 0 auto; }
+.hero h1 {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+.hero p { font-size: 14px; color: #a8a29e; max-width: 640px; }
+.form-index {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.fi-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  flex: 1;
+}
+.fi-card:hover { background: rgba(22,163,74,0.12); border-color: var(--accent); }
+.fi-card .tag { font-family: var(--mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.fi-card .name { font-size: 13px; font-weight: 600; color: #e7e5e4; }
+.fi-card .law { font-family: var(--mono); font-size: 10px; color: #78716c; margin-top: 2px; }
+.fi-card .freq { font-size: 11px; color: #a8a29e; margin-top: 8px; }
+
+/* ─── MAIN WRAPPER ─── */
+.main { max-width: 1200px; margin: 0 auto; padding: 48px 40px; }
+
+/* ─── REGISTER BLOCK ─── */
+.register-block { margin-bottom: 72px; }
+
+.reg-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 20px;
+}
+.reg-heading-left .tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+.reg-heading-left h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+.reg-heading-left .subname {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+.reg-heading-right { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.badge-red { background: var(--danger-pale); color: var(--danger); border: 1px solid #fca5a5; }
+.badge-amber { background: var(--warn-pale); color: var(--warn); border: 1px solid #fcd34d; }
+.badge-green { background: var(--accent-pale); color: var(--accent-2); border: 1px solid #86efac; }
+.badge-blue { background: var(--info-pale); color: var(--info); border: 1px solid #93c5fd; }
+.badge-grey { background: #f5f5f4; color: var(--ink-3); border: 1px solid var(--rule-strong); }
+
+/* ─── ALERT NOTE ─── */
+.alert-note {
+  border-left: 3px solid var(--danger);
+  background: var(--danger-pale);
+  padding: 12px 16px;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: #7f1d1d;
+}
+.alert-note strong { font-weight: 600; display: block; margin-bottom: 3px; font-size: 11px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.info-note {
+  border-left: 3px solid var(--info);
+  background: var(--info-pale);
+  padding: 11px 16px;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 16px;
+  font-size: 12.5px;
+  color: #1e3a5f;
+}
+.info-note strong { font-weight: 600; }
+
+/* ─── THE FORM PAPER ─── */
+.form-paper {
+  background: var(--bg-form);
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+/* Form official header */
+.form-hdr {
+  background: var(--bg-col-head);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+}
+.form-hdr-left .gov { font-size: 11px; color: #a8a29e; font-family: var(--mono); letter-spacing: 0.5px; }
+.form-hdr-left .title { font-size: 14px; font-weight: 600; color: #f5f5f4; margin-top: 2px; letter-spacing: 0.1px; }
+.form-hdr-right { text-align: right; }
+.form-hdr-right .form-no { font-family: var(--serif); font-size: 22px; color: white; }
+.form-hdr-right .form-no-sub { font-family: var(--mono); font-size: 9px; color: #78716c; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Dealer info grid */
+.dealer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--rule);
+  background: #fafaf9;
+}
+.dealer-cell {
+  padding: 12px 20px;
+  border-right: 1px solid var(--rule);
+}
+.dealer-cell:last-child { border-right: none; }
+.dealer-cell .lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--ink-4);
+  margin-bottom: 3px;
+}
+.dealer-cell .val { font-size: 13px; font-weight: 600; color: var(--ink); }
+.dealer-cell .val.mono { font-family: var(--mono); font-size: 11px; }
+.dealer-cell .val.green { color: var(--accent-2); }
+.dealer-cell .val.red { color: var(--danger); }
+.dealer-cell .line {
+  border-bottom: 1px solid var(--rule-strong);
+  height: 20px;
+  margin-top: 4px;
+}
+
+/* Period row */
+.period-bar {
+  background: var(--accent-pale);
+  border-bottom: 1px solid #bbf7d0;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 12px;
+}
+.pb-item { display: flex; align-items: center; gap: 8px; }
+.pb-label { font-weight: 600; color: var(--accent-2); font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.pb-val {
+  background: white;
+  border: 1px solid #86efac;
+  border-radius: 3px;
+  padding: 2px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink);
+}
+.pb-auto { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--accent-2); }
+
+/* ─── TABLE STYLES ─── */
+.tbl-wrap { overflow-x: auto; }
+table.reg {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+table.reg thead tr { background: var(--bg-col-head); }
+table.reg thead th {
+  padding: 9px 12px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 11px;
+  color: #e7e5e4;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+table.reg thead th .col-no {
+  display: block;
+  font-family: var(--mono);
+  font-size: 8px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 3px;
+}
+table.reg thead th .required {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--danger);
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 3px;
+  margin-bottom: 1px;
+}
+
+table.reg tbody tr { border-bottom: 1px solid var(--rule); }
+table.reg tbody tr:hover { background: #fafaf9; }
+table.reg tbody tr.alt { background: #fbfbfa; }
+table.reg tbody tr.alt:hover { background: #f5f5f4; }
+table.reg tbody tr.total { background: var(--accent-pale) !important; font-weight: 600; border-top: 2px solid var(--accent); }
+table.reg tbody tr.danger-row { background: #fff8f8 !important; }
+
+table.reg td {
+  padding: 9px 12px;
+  border-right: 1px solid var(--rule);
+  vertical-align: top;
+}
+table.reg td:last-child { border-right: none; }
+
+.tc { text-align: center; }
+.tr { text-align: right; }
+.mono12 { font-family: var(--mono); font-size: 11px; }
+
+.dp { font-weight: 600; font-size: 12px; color: var(--ink); }
+.ds { font-family: var(--mono); font-size: 10px; color: var(--ink-4); margin-top: 1px; }
+
+.nv { font-family: var(--mono); font-weight: 500; font-size: 13px; }
+.nu { font-family: var(--mono); font-size: 9px; color: var(--ink-4); display: block; margin-top: 1px; }
+
+.num-green { color: var(--accent-2); }
+.num-amber { color: var(--warn); }
+.num-red { color: var(--danger); }
+
+.pill {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.pill-green { background: #dcfce7; color: #15803d; }
+.pill-amber { background: #fef3c7; color: #92400e; }
+.pill-red { background: #fee2e2; color: #b91c1c; }
+.pill-blue { background: #dbeafe; color: #1d4ed8; }
+.pill-grey { background: #f5f5f4; color: #78716c; }
+
+.sr { font-family: var(--mono); font-size: 10px; color: var(--ink-4); text-align: center; }
+
+/* ─── FORM FOOTER / SIGNATURE ─── */
+.form-footer {
+  border-top: 1px solid var(--rule-strong);
+  background: #fafaf9;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+}
+.sig { padding: 16px 24px; border-right: 1px solid var(--rule); }
+.sig:last-child { border-right: none; }
+.sig .sig-lbl { font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--ink-4); margin-bottom: 2px; }
+.sig .sig-name { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.sig-line { border-bottom: 1px solid var(--rule-strong); height: 32px; margin-top: 6px; }
+.sig-date { font-family: var(--mono); font-size: 9px; color: var(--ink-4); margin-top: 4px; }
+.stamp-area {
+  width: 72px;
+  height: 72px;
+  border: 1.5px dashed #dc2626;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #dc2626;
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.35;
+  margin: auto;
+  padding: 8px;
+}
+.sig-center { display: flex; align-items: center; justify-content: center; padding: 16px; border-right: 1px solid var(--rule); }
+
+/* ─── FIELD NOTES ─── */
+.field-notes {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  padding: 14px 18px;
+  margin-top: 10px;
+}
+.field-notes h4 {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.field-notes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 20px;
+}
+.fn-row { display: flex; gap: 8px; font-size: 11px; line-height: 1.4; }
+.fn-num { font-family: var(--mono); font-weight: 500; color: var(--warn); flex-shrink: 0; width: 22px; }
+.fn-desc { color: var(--ink-2); }
+
+/* ─── DIVIDER ─── */
+.divider { border: none; border-top: 1px dashed var(--rule-strong); margin: 16px 0 56px; }
+
+/* ─── SECTION ANCHOR OFFSET ─── */
+[id]::before { content: ''; display: block; height: 70px; margin-top: -70px; }
+
+/* ─── TAB SYSTEM FOR FORM XIV ─── */
+.tab-strip { display: flex; border-bottom: 1.5px solid var(--rule-strong); margin-bottom: 20px; }
+.tab-btn {
+  padding: 9px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-4);
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1.5px;
+  font-family: var(--sans);
+  letter-spacing: 0.2px;
+  transition: all 0.15s;
+}
+.tab-btn.active { color: var(--accent-2); border-bottom-color: var(--accent); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ─── STATUS ROW (Form XIV) ─── */
+.month-status { display: flex; gap: 10px; margin-bottom: 16px; }
+.ms-card {
+  flex: 1;
+  background: var(--bg-form);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 12px 16px;
+  text-align: center;
+}
+.ms-month { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 5px; }
+.ms-status { font-family: var(--mono); font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 2px; }
+
+/* ─── GERMINATION INDICATORS ─── */
+.germ-valid { color: var(--accent-2); font-family: var(--mono); font-size: 11px; font-weight: 500; }
+.germ-warn { color: var(--warn); font-family: var(--mono); font-size: 11px; font-weight: 500; }
+.germ-exp { color: var(--danger); font-family: var(--mono); font-size: 11px; font-weight: 500; text-decoration: line-through; }
+
+/* ─── PRINT ─── */
+@media print {
+  .site-nav, .hero, .field-notes, .info-note, .alert-note, .tab-strip { display: none !important; }
+  .register-block { page-break-before: always; }
+  body { background: white; }
+  .main { padding: 0; max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="brand">Prithvi<em>X</em></div>
+  <div class="nav-links">
+    <a class="nav-link" href="#form-n">Form N</a>
+    <a class="nav-link" href="#form-xii">Form XII</a>
+    <a class="nav-link" href="#form-xiv">Form XIV</a>
+    <a class="nav-link" href="#seed-reg">Seed Register</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Government Compliance Registers</h1>
+    <p>Mandatory government-format registers for licensed agro input dealers. Auto-generated from PrithviX billing and stock data. Print-ready for inspector visits.</p>
+    <div class="form-index">
+      <div class="fi-card" onclick="document.getElementById('form-n').scrollIntoView({behavior:'smooth'})">
+        <div class="tag">FCO 1985</div>
+        <div class="name">Form N — Daily Stock Register</div>
+        <div class="law">Fertilizer Control Order, 1985</div>
+        <div class="freq">Daily entry required</div>
+      </div>
+      <div class="fi-card" onclick="document.getElementById('form-xii').scrollIntoView({behavior:'smooth'})">
+        <div class="tag">Insecticides Act 1968</div>
+        <div class="name">Form XII — Pesticide Sales Register</div>
+        <div class="law">Rule 15, Insecticides Rules 1971</div>
+        <div class="freq">Entry per sale</div>
+      </div>
+      <div class="fi-card" onclick="document.getElementById('form-xiv').scrollIntoView({behavior:'smooth'})">
+        <div class="tag">Insecticides Act 1968</div>
+        <div class="name">Form XIV — Monthly Return</div>
+        <div class="law">Rule 17, Insecticides Rules 1971</div>
+        <div class="freq">Submit by 15th every month</div>
+      </div>
+      <div class="fi-card" onclick="document.getElementById('seed-reg').scrollIntoView({behavior:'smooth'})">
+        <div class="tag">Seeds Act 1966</div>
+        <div class="name">Seed Stock Register</div>
+        <div class="law">Seeds Act 1966 + State Rules</div>
+        <div class="freq">Daily + monthly returns</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════
+     FORM N — FERTILIZER DAILY STOCK REGISTER
+═══════════════════════════════════════════════ -->
+<div class="register-block" id="form-n">
+  <div class="reg-heading">
+    <div class="reg-heading-left">
+      <div class="tag">Fertilizer Control Order, 1985 — Schedule I, Clause 9</div>
+      <h2>Form N — Fertilizer Daily Stock Register</h2>
+      <div class="subname">Mandatory for every licensed fertilizer dealer · Inspector can demand anytime</div>
+    </div>
+    <div class="reg-heading-right">
+      <span class="badge badge-red">Legally Mandatory</span>
+      <span class="badge badge-amber">Daily Update</span>
+      <span class="badge badge-blue">Submit by 5th of Month</span>
+    </div>
+  </div>
+
+  <div class="alert-note">
+    <strong>Legal Consequence</strong>
+    Missing or falsified entries = license suspension + prosecution under the Essential Commodities Act (up to 7 years imprisonment). Every calendar day must have an entry, even if no movement occurred.
+  </div>
+
+  <div class="info-note">
+    <strong>Auto-generation:</strong> PrithviX generates Form N entries automatically after every fertilizer purchase and sale. Opening stock = previous day's closing stock. No manual entry required.
+  </div>
+
+  <div class="form-paper">
+    <!-- FORM HEADER -->
+    <div class="form-hdr">
+      <div class="form-hdr-left">
+        <div class="gov">Government of India — Fertilizer Control Order, 1985</div>
+        <div class="title">Daily Stock Register / Fertilizer</div>
+      </div>
+      <div class="form-hdr-right">
+        <div class="form-no">Form N</div>
+        <div class="form-no-sub">Fertilizer Control Order</div>
+      </div>
+    </div>
+
+    <!-- DEALER INFO -->
+    <div class="dealer-grid">
+      <div class="dealer-cell">
+        <div class="lbl">Dealer Name</div>
+        <div class="val">Ramlal Agro Centre</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Fertilizer License Number</div>
+        <div class="val mono">FERT/RJ/JJN/2847/2023</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">License Valid Until</div>
+        <div class="val mono green">31-03-2026</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Address / Village / Town</div>
+        <div class="val">Jhunjhunu, Rajasthan</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">District</div>
+        <div class="val">Jhunjhunu</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">State</div>
+        <div class="val">Rajasthan</div>
+      </div>
+    </div>
+
+    <!-- PERIOD BAR -->
+    <div class="period-bar">
+      <div class="pb-item">
+        <div class="pb-label">Month</div>
+        <div class="pb-val">April 2026</div>
+      </div>
+      <div class="pb-item">
+        <div class="pb-label">Year</div>
+        <div class="pb-val">2026</div>
+      </div>
+      <div class="pb-item">
+        <div class="pb-label">Page No.</div>
+        <div class="pb-val">1 of 3</div>
+      </div>
+      <div class="pb-auto">Auto-generated by PrithviX ✓</div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="tbl-wrap">
+      <table class="reg">
+        <thead>
+          <tr>
+            <th style="width:36px">S.No<span class="col-no">(1)</span></th>
+            <th style="width:90px">Date<span class="required"></span><span class="col-no">(2)</span></th>
+            <th style="min-width:150px">Fertilizer Name &amp; Grade<span class="required"></span><span class="col-no">(3)</span></th>
+            <th style="width:88px">Opening Stock<span class="required"></span><span class="col-no">(4)</span></th>
+            <th style="min-width:130px">Receipts Today<br><span style="font-size:9px;font-weight:400;color:#a8a29e">(Qty + Supplier + Invoice No.)</span><span class="col-no">(5)</span></th>
+            <th style="min-width:110px">Certificate of Source<br><span style="font-size:9px;font-weight:400;color:#a8a29e">(Form O Ref. No.)</span><span class="col-no">(6)</span></th>
+            <th style="width:88px">Total Available<span class="col-no">(7)</span></th>
+            <th style="width:80px">Sales Today<span class="required"></span><span class="col-no">(8)</span></th>
+            <th style="width:88px">Damage / Adjustment<span class="col-no">(9)</span></th>
+            <th style="width:88px">Closing Stock<span class="required"></span><span class="col-no">(10)</span></th>
+            <th style="min-width:100px">Remarks<span class="col-no">(11)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sr">1</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">DAP 18:46:00</div>
+              <div class="ds">Di-Ammonium Phosphate</div>
+              <div style="margin-top:3px"><span class="pill pill-blue">50 kg bag</span></div>
+            </td>
+            <td class="tc"><div class="nv">240</div><span class="nu">Bags</span></td>
+            <td>
+              <div style="font-size:12px;font-weight:600">+60 bags</div>
+              <div class="ds">IFFCO Jaipur</div>
+              <div class="ds">INV# IFFCO/JJN/2246</div>
+            </td>
+            <td class="mono12" style="font-size:10px;color:var(--ink-2)">IFFCO/COS/2024/JJN/887</td>
+            <td class="tc"><div class="nv">300</div><span class="nu">Bags</span></td>
+            <td class="tc"><div class="nv">45</div><span class="nu">Bags</span></td>
+            <td class="tc" style="color:var(--ink-4)">—</td>
+            <td class="tc"><div class="nv num-green">255</div><span class="nu">Bags</span></td>
+            <td style="font-size:11px;color:var(--ink-3)">Kharif season supply</td>
+          </tr>
+          <tr class="alt">
+            <td class="sr">2</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">Urea 46% N</div>
+              <div class="ds">Neem Coated Urea</div>
+              <div style="margin-top:3px"><span class="pill pill-amber">45 kg bag</span></div>
+            </td>
+            <td class="tc"><div class="nv">180</div><span class="nu">Bags</span></td>
+            <td style="color:var(--ink-4);font-size:11px">— No receipt today</td>
+            <td style="color:var(--ink-4);font-size:10px;text-align:center">N/A</td>
+            <td class="tc"><div class="nv">180</div><span class="nu">Bags</span></td>
+            <td class="tc"><div class="nv">78</div><span class="nu">Bags</span></td>
+            <td class="tc" style="color:var(--ink-4)">—</td>
+            <td class="tc"><div class="nv num-amber">102</div><span class="nu">Bags</span></td>
+            <td style="font-size:11px;color:var(--warn)">Stock low — reorder</td>
+          </tr>
+          <tr>
+            <td class="sr">3</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">NPK 12:32:16</div>
+              <div class="ds">Complex Fertilizer</div>
+              <div style="margin-top:3px"><span class="pill pill-green">50 kg bag</span></div>
+            </td>
+            <td class="tc"><div class="nv">90</div><span class="nu">Bags</span></td>
+            <td>
+              <div style="font-size:12px;font-weight:600">+120 bags</div>
+              <div class="ds">Coromandel Intl.</div>
+              <div class="ds">INV# CIL/RAJ/4521</div>
+            </td>
+            <td class="mono12" style="font-size:10px;color:var(--ink-2)">CIL/COS/2024/RAJ/334</td>
+            <td class="tc"><div class="nv">210</div><span class="nu">Bags</span></td>
+            <td class="tc"><div class="nv">23</div><span class="nu">Bags</span></td>
+            <td class="tc" style="color:var(--ink-4)">—</td>
+            <td class="tc"><div class="nv num-green">187</div><span class="nu">Bags</span></td>
+            <td style="font-size:11px;color:var(--ink-4)">—</td>
+          </tr>
+          <tr class="alt">
+            <td class="sr">4</td>
+            <td class="tc mono12">02/04/2026</td>
+            <td>
+              <div class="dp">MOP 60% K₂O</div>
+              <div class="ds">Muriate of Potash</div>
+              <div style="margin-top:3px"><span class="pill pill-blue">50 kg bag</span></div>
+            </td>
+            <td class="tc"><div class="nv">12</div><span class="nu">Bags</span></td>
+            <td style="color:var(--ink-4);font-size:11px">— No receipt</td>
+            <td style="color:var(--ink-4);font-size:10px;text-align:center">N/A</td>
+            <td class="tc"><div class="nv">12</div><span class="nu">Bags</span></td>
+            <td class="tc"><div class="nv">12</div><span class="nu">Bags</span></td>
+            <td class="tc" style="color:var(--ink-4)">—</td>
+            <td class="tc">
+              <div class="nv num-red">0</div>
+              <span class="nu">Bags</span>
+              <div style="margin-top:3px"><span class="pill pill-red">Zero</span></div>
+            </td>
+            <td style="font-size:11px;color:var(--danger)">Out of stock — order placed</td>
+          </tr>
+          <tr class="danger-row">
+            <td class="sr">5</td>
+            <td class="tc mono12">03/04/2026</td>
+            <td>
+              <div class="dp">DAP 18:46:00</div>
+              <div class="ds">Di-Ammonium Phosphate</div>
+              <div style="margin-top:3px"><span class="pill pill-red">Damage Entry</span></div>
+            </td>
+            <td class="tc"><div class="nv">255</div><span class="nu">Bags</span></td>
+            <td style="color:var(--ink-4);font-size:11px">—</td>
+            <td style="color:var(--ink-4);font-size:10px;text-align:center">N/A</td>
+            <td class="tc"><div class="nv">255</div><span class="nu">Bags</span></td>
+            <td class="tc"><div class="nv">38</div><span class="nu">Bags</span></td>
+            <td class="tc">
+              <div class="nv num-red">2</div>
+              <span class="nu">Bags</span>
+              <div class="ds" style="font-size:9px">Bag torn</div>
+            </td>
+            <td class="tc"><div class="nv num-green">215</div><span class="nu">Bags</span></td>
+            <td style="font-size:11px;color:var(--danger)">2 bags damaged — reported to supplier</td>
+          </tr>
+          <tr class="total">
+            <td colspan="3" style="text-align:right;font-size:12px;padding-right:16px;color:var(--accent-2)">Monthly Total (April 2026) →</td>
+            <td class="tc" style="color:var(--ink-3)">—</td>
+            <td class="tc"><div class="nv">+180 bags</div><span class="nu">Total Received</span></td>
+            <td></td><td></td>
+            <td class="tc"><div class="nv">196</div><span class="nu">Bags Sold</span></td>
+            <td class="tc"><div class="nv num-red">2</div><span class="nu">Damaged</span></td>
+            <td></td><td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="form-footer">
+      <div class="sig">
+        <div class="sig-lbl">Dealer / Retailer Signature</div>
+        <div class="sig-name">Authorized Dealer</div>
+        <div class="sig-line"></div>
+        <div class="sig-date">Date: ___________________</div>
+      </div>
+      <div class="sig-center">
+        <div class="stamp-area">Dealer Stamp</div>
+      </div>
+      <div class="sig" style="border-right:none">
+        <div class="sig-lbl">Inspecting Officer Signature</div>
+        <div class="sig-name">Agriculture Inspector</div>
+        <div class="sig-line"></div>
+        <div class="sig-date">Inspection Date: ___________________</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-notes">
+    <h4>Field-by-Field Reference — Form N</h4>
+    <div class="field-notes-grid">
+      <div class="fn-row"><span class="fn-num">(1)</span><span class="fn-desc">Serial No. — auto-increment, never reset mid-year</span></div>
+      <div class="fn-row"><span class="fn-num">(2)</span><span class="fn-desc">Date — every calendar day required, even zero-movement days</span></div>
+      <div class="fn-row"><span class="fn-num">(3)</span><span class="fn-desc">Fertilizer name + grade (NPK % e.g. 18:46:00) — from product master</span></div>
+      <div class="fn-row"><span class="fn-num">(4)</span><span class="fn-desc">Opening = prior day's closing; first entry uses physical count</span></div>
+      <div class="fn-row"><span class="fn-num">(5)</span><span class="fn-desc">Receipts = quantity + supplier name + supplier invoice no.</span></div>
+      <div class="fn-row"><span class="fn-num">(6)</span><span class="fn-desc">Form O reference no. from supplier — mandatory per FCO for every receipt</span></div>
+      <div class="fn-row"><span class="fn-num">(7)</span><span class="fn-desc">Total Available = Opening Stock + Receipts (computed)</span></div>
+      <div class="fn-row"><span class="fn-num">(8)</span><span class="fn-desc">Sales = sum of all bills for that product on that date</span></div>
+      <div class="fn-row"><span class="fn-num">(9)</span><span class="fn-desc">Damage / adjustment — note reason in remarks column</span></div>
+      <div class="fn-row"><span class="fn-num">(10)</span><span class="fn-desc">Closing = Total Available − Sales − Damage; must match physical stock</span></div>
+      <div class="fn-row"><span class="fn-num">(11)</span><span class="fn-desc">Remarks — inspector notes, quality issues, shortages, returns</span></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+
+<!-- ═══════════════════════════════════════════════
+     FORM XII — PESTICIDE SALES REGISTER
+═══════════════════════════════════════════════ -->
+<div class="register-block" id="form-xii">
+  <div class="reg-heading">
+    <div class="reg-heading-left">
+      <div class="tag">Insecticides Act 1968 — Rule 15, Insecticides Rules 1971</div>
+      <h2>Form XII — Pesticide Sales Register</h2>
+      <div class="subname">Mandatory entry per every pesticide sale · Farmer name and address required by law</div>
+    </div>
+    <div class="reg-heading-right">
+      <span class="badge badge-red">Per-Sale Mandatory</span>
+      <span class="badge badge-amber">Batch No. Required</span>
+      <span class="badge badge-blue">CIB Reg. No. Required</span>
+      <span class="badge badge-green">Expiry Must Be Checked</span>
+    </div>
+  </div>
+
+  <div class="alert-note">
+    <strong>Legal Consequence</strong>
+    Every insecticide sale must be entered immediately in Form XII. Selling without entry, selling expired stock, or selling banned pesticides = up to 2 years imprisonment + fine + license cancellation under the Insecticides Act 1968.
+  </div>
+
+  <div class="info-note">
+    <strong>Auto-generation:</strong> PrithviX creates a Form XII entry automatically when any product with license_type = PESTICIDE or INSECTICIDE is billed. Batch (FEFO), CIB registration number, and farmer details all pull from existing records.
+  </div>
+
+  <div class="form-paper">
+    <div class="form-hdr">
+      <div class="form-hdr-left">
+        <div class="gov">Insecticides Act, 1968 — Rule 15, Insecticides Rules 1971</div>
+        <div class="title">Pesticide Sales Register</div>
+      </div>
+      <div class="form-hdr-right">
+        <div class="form-no">Form XII</div>
+        <div class="form-no-sub">Insecticides Rules 1971</div>
+      </div>
+    </div>
+
+    <div class="dealer-grid">
+      <div class="dealer-cell">
+        <div class="lbl">Dealer / Distributor Name</div>
+        <div class="val">Ramlal Agro Centre</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Insecticide License No.</div>
+        <div class="val mono">PEST/RJ/JJN/1183/2022</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Period (Month / Year)</div>
+        <div class="val mono">April 2026</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="reg">
+        <thead>
+          <tr>
+            <th style="width:34px">S.No<span class="col-no">(1)</span></th>
+            <th style="width:90px">Bill / Memo No.<span class="required"></span><span class="col-no">(2)</span></th>
+            <th style="width:88px">Date of Sale<span class="required"></span><span class="col-no">(3)</span></th>
+            <th style="min-width:130px">Buyer Name<span class="required"></span><span class="col-no">(4)</span></th>
+            <th style="min-width:150px">Buyer Address<span class="required"></span><span class="col-no">(5)</span></th>
+            <th style="min-width:130px">Trade / Brand Name<span class="required"></span><span class="col-no">(6)</span></th>
+            <th style="min-width:140px">Technical / Common Name<span class="required"></span><span class="col-no">(7)</span></th>
+            <th style="min-width:100px">Batch No.<span class="required"></span><span class="col-no">(8)</span></th>
+            <th style="min-width:100px">CIB Reg. No.<span class="required"></span><span class="col-no">(9)</span></th>
+            <th style="width:80px">Mfg. Date<span class="col-no">(10)</span></th>
+            <th style="width:80px">Expiry Date<span class="required"></span><span class="col-no">(11)</span></th>
+            <th style="width:76px">Qty Sold<span class="required"></span><span class="col-no">(12)</span></th>
+            <th style="width:72px">Rate / Unit<span class="col-no">(13)</span></th>
+            <th style="width:80px">Total Amount<span class="col-no">(14)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sr">1</td>
+            <td class="tc mono12" style="font-size:10px">PX-2604-0001</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">Suresh Kumar Sharma</div>
+              <div class="ds">Mob: 98290XXXXX</div>
+            </td>
+            <td style="font-size:11px">
+              Vill. Mandawa, Teh. Mandawa,<br>
+              Distt. Jhunjhunu, Rajasthan
+            </td>
+            <td>
+              <div class="dp">Roket 50 EC</div>
+              <div class="ds">Dhanuka Agritech</div>
+            </td>
+            <td>
+              <div class="dp">Acephate 50%</div>
+              <div class="ds">Organophosphate</div>
+            </td>
+            <td>
+              <div class="mono12">B2024-0892</div>
+              <div style="margin-top:3px"><span class="pill pill-green">Valid</span></div>
+            </td>
+            <td class="mono12" style="font-size:10px">CIB-I(b)/107/2019</td>
+            <td class="tc mono12">03/2024</td>
+            <td class="tc mono12" style="color:var(--accent-2)">03/2026</td>
+            <td class="tc"><div class="nv">5</div><span class="nu">500ml btl</span></td>
+            <td class="tr"><div class="nv">₹480</div><span class="nu">per btl</span></td>
+            <td class="tr">
+              <div class="nv num-green">₹2,400</div>
+              <div style="margin-top:3px"><span class="pill pill-green">Paid</span></div>
+            </td>
+          </tr>
+          <tr class="alt">
+            <td class="sr">2</td>
+            <td class="tc mono12" style="font-size:10px">PX-2604-0002</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">Ramesh Lal Jakhar</div>
+            </td>
+            <td style="font-size:11px">
+              Vill. Bissau, Teh. Bissau,<br>
+              Distt. Jhunjhunu, Rajasthan
+            </td>
+            <td>
+              <div class="dp">Confidor 200 SL</div>
+              <div class="ds">Bayer CropScience</div>
+            </td>
+            <td>
+              <div class="dp">Imidacloprid 17.8%</div>
+              <div class="ds">Neonicotinoid</div>
+            </td>
+            <td>
+              <div class="mono12">IM2024-447</div>
+              <div style="margin-top:3px"><span class="pill pill-amber">Exp. Soon</span></div>
+            </td>
+            <td class="mono12" style="font-size:10px">CIB-I(b)/88/2018</td>
+            <td class="tc mono12">06/2024</td>
+            <td class="tc mono12" style="color:var(--warn)">06/2026</td>
+            <td class="tc"><div class="nv">3</div><span class="nu">100ml btl</span></td>
+            <td class="tr"><div class="nv">₹320</div><span class="nu">per btl</span></td>
+            <td class="tr">
+              <div class="nv num-amber">₹960</div>
+              <div style="margin-top:3px"><span class="pill pill-amber">Credit</span></div>
+            </td>
+          </tr>
+          <tr class="danger-row">
+            <td class="sr">3</td>
+            <td class="tc mono12" style="font-size:10px">PX-2604-0003</td>
+            <td class="tc mono12">02/04/2026</td>
+            <td>
+              <div class="dp">Mohan Singh Nain</div>
+            </td>
+            <td style="font-size:11px">
+              Vill. Khetri Nagar, Teh. Khetri,<br>
+              Distt. Jhunjhunu, Rajasthan
+            </td>
+            <td>
+              <div class="dp" style="color:var(--danger)">Tafgor 40 EC</div>
+              <div class="ds">Excel Crop Care</div>
+              <div style="margin-top:3px"><span class="pill pill-red">Banned</span></div>
+            </td>
+            <td>
+              <div class="dp" style="color:var(--danger)">Dimethoate 30%</div>
+              <div class="ds" style="color:var(--danger)">Banned from 2020</div>
+            </td>
+            <td class="mono12" style="color:var(--danger)">DM2019-001</td>
+            <td class="mono12" style="color:var(--danger);font-size:10px">REVOKED</td>
+            <td class="tc mono12" style="color:var(--danger)">08/2019</td>
+            <td class="tc mono12" style="color:var(--danger)">08/2021 ✕</td>
+            <td class="tc" style="color:var(--danger)">
+              <span class="pill pill-red">Blocked</span>
+            </td>
+            <td class="tr" style="color:var(--danger)">—</td>
+            <td class="tr">
+              <span class="pill pill-red">Sale Blocked</span>
+              <div style="font-size:9px;color:var(--danger);margin-top:3px">PrithviX prevented</div>
+            </td>
+          </tr>
+          <tr class="alt">
+            <td class="sr">4</td>
+            <td class="tc mono12" style="font-size:10px">PX-2604-0007</td>
+            <td class="tc mono12">03/04/2026</td>
+            <td>
+              <div class="dp">Priya Devi</div>
+            </td>
+            <td style="font-size:11px">
+              Vill. Chirawa, Teh. Chirawa,<br>
+              Distt. Jhunjhunu, Rajasthan
+            </td>
+            <td>
+              <div class="dp">Ampligo 150 ZC</div>
+              <div class="ds">Syngenta India</div>
+            </td>
+            <td style="font-size:11px">
+              Lambda-cyhalothrin 106g/L +<br>Chlorantraniliprole 200g/L
+            </td>
+            <td>
+              <div class="mono12">AMP2025-312</div>
+              <div style="margin-top:3px"><span class="pill pill-green">Valid</span></div>
+            </td>
+            <td class="mono12" style="font-size:10px">CIB-I(b)/512/2023</td>
+            <td class="tc mono12">01/2025</td>
+            <td class="tc mono12" style="color:var(--accent-2)">01/2027</td>
+            <td class="tc"><div class="nv">2</div><span class="nu">250ml btl</span></td>
+            <td class="tr"><div class="nv">₹1,250</div></td>
+            <td class="tr">
+              <div class="nv num-green">₹2,500</div>
+              <div style="margin-top:3px"><span class="pill pill-green">Paid</span></div>
+            </td>
+          </tr>
+          <tr class="total">
+            <td colspan="11" style="text-align:right;padding-right:16px;font-size:12px;color:var(--accent-2)">April 2026 Total (3 valid sales) →</td>
+            <td class="tc"><div class="nv">10 units</div></td>
+            <td></td>
+            <td class="tr"><div class="nv">₹5,860</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="form-footer">
+      <div class="sig">
+        <div class="sig-lbl">Dealer Signature &amp; Stamp</div>
+        <div class="sig-name">Authorized Dealer</div>
+        <div class="sig-line"></div>
+        <div class="sig-date">Date: ___________________</div>
+      </div>
+      <div class="sig-center">
+        <div class="stamp-area">Dealer Stamp</div>
+      </div>
+      <div class="sig" style="border-right:none">
+        <div class="sig-lbl">Inspecting Officer</div>
+        <div class="sig-name">Agriculture Inspector</div>
+        <div class="sig-line"></div>
+        <div class="sig-date">Inspection Date: ___________________</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-notes">
+    <h4>Critical Fields — Form XII Developer Notes</h4>
+    <div class="field-notes-grid">
+      <div class="fn-row"><span class="fn-num">(4)</span><span class="fn-desc">Buyer name — pull from farmers table; allow manual entry for walk-ins (mark unregistered)</span></div>
+      <div class="fn-row"><span class="fn-num">(5)</span><span class="fn-desc">Full address — village + taluka + district minimum; pull from farmer profile</span></div>
+      <div class="fn-row"><span class="fn-num">(7)</span><span class="fn-desc">Technical/common name (active ingredient) — NOT the brand name; store in product_license_mapping.technical_name</span></div>
+      <div class="fn-row"><span class="fn-num">(8)</span><span class="fn-desc">Batch no. from stock_receipts; sell oldest batch first (FEFO); never leave blank</span></div>
+      <div class="fn-row"><span class="fn-num">(9)</span><span class="fn-desc">CIB&RC Registration No. — from Central Insecticides Board; store in product master</span></div>
+      <div class="fn-row"><span class="fn-num">(11)</span><span class="fn-desc">Expiry date — if expired, PrithviX must block sale; selling expired pesticide is illegal</span></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+
+<!-- ═══════════════════════════════════════════════
+     FORM XIV — PESTICIDE MONTHLY RETURN
+═══════════════════════════════════════════════ -->
+<div class="register-block" id="form-xiv">
+  <div class="reg-heading">
+    <div class="reg-heading-left">
+      <div class="tag">Insecticides Act 1968 — Rule 17, Insecticides Rules 1971</div>
+      <h2>Form XIV — Pesticide Monthly Return</h2>
+      <div class="subname">Must be submitted to Licensing Authority by the 15th of every following month</div>
+    </div>
+    <div class="reg-heading-right">
+      <span class="badge badge-red">Submit by 15th</span>
+      <span class="badge badge-amber">Monthly Obligation</span>
+      <span class="badge badge-blue">Aggregate of Form XII</span>
+    </div>
+  </div>
+
+  <div class="alert-note">
+    <strong>Legal Consequence</strong>
+    Failure to submit Form XIV by the 15th of the following month = violation of Rule 17 of the Insecticides Rules 1971. Repeated non-submission leads to license suspension and prosecution.
+  </div>
+
+  <div class="tab-strip">
+    <button class="tab-btn active" onclick="switchTab(event,'t-status')">Submission Status</button>
+    <button class="tab-btn" onclick="switchTab(event,'t-xiv')">Monthly Return Form</button>
+  </div>
+
+  <div class="tab-pane active" id="t-status">
+    <div class="month-status">
+      <div class="ms-card">
+        <div class="ms-month">January 2026</div>
+        <div><span class="ms-status" style="background:#dcfce7;color:#15803d">Submitted</span></div>
+      </div>
+      <div class="ms-card">
+        <div class="ms-month">February 2026</div>
+        <div><span class="ms-status" style="background:#dcfce7;color:#15803d">Submitted</span></div>
+      </div>
+      <div class="ms-card">
+        <div class="ms-month">March 2026</div>
+        <div><span class="ms-status" style="background:#fef3c7;color:#92400e">Draft</span></div>
+      </div>
+      <div class="ms-card">
+        <div class="ms-month">April 2026</div>
+        <div><span class="ms-status" style="background:#dbeafe;color:#1d4ed8">In Progress</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane" id="t-xiv">
+    <div class="form-paper">
+      <div class="form-hdr">
+        <div class="form-hdr-left">
+          <div class="gov">Insecticides Act, 1968 — Rule 17 · Monthly Return to Licensing Authority</div>
+          <div class="title">Monthly Statement of Stock and Sales — Insecticides</div>
+        </div>
+        <div class="form-hdr-right">
+          <div class="form-no">Form XIV</div>
+          <div class="form-no-sub">Insecticides Rules 1971</div>
+        </div>
+      </div>
+
+      <div class="dealer-grid">
+        <div class="dealer-cell">
+          <div class="lbl">Dealer Name</div>
+          <div class="val">Ramlal Agro Centre</div>
+        </div>
+        <div class="dealer-cell">
+          <div class="lbl">License Number</div>
+          <div class="val mono">PEST/RJ/JJN/1183/2022</div>
+        </div>
+        <div class="dealer-cell">
+          <div class="lbl">Return For Month / Year</div>
+          <div class="val mono">March 2026</div>
+        </div>
+        <div class="dealer-cell">
+          <div class="lbl">Issued By (Licensing Authority)</div>
+          <div class="val">Dept. of Agriculture, Rajasthan</div>
+        </div>
+        <div class="dealer-cell">
+          <div class="lbl">District</div>
+          <div class="val">Jhunjhunu</div>
+        </div>
+        <div class="dealer-cell">
+          <div class="lbl">Status</div>
+          <div class="val"><span class="pill pill-amber">Draft</span></div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table class="reg">
+          <thead>
+            <tr>
+              <th style="width:34px">S.No<span class="col-no">(1)</span></th>
+              <th style="min-width:140px">Insecticide Name (Trade)<span class="required"></span><span class="col-no">(2)</span></th>
+              <th style="min-width:150px">Technical / Common Name<span class="required"></span><span class="col-no">(3)</span></th>
+              <th style="min-width:90px">Formulation Type<span class="col-no">(4)</span></th>
+              <th style="width:80px">Unit<span class="col-no">(5)</span></th>
+              <th style="width:90px">Opening Stock<span class="required"></span><span class="col-no">(6)</span></th>
+              <th style="width:90px">Receipts During Month<span class="required"></span><span class="col-no">(7)</span></th>
+              <th style="width:90px">Total Available<span class="col-no">(8)</span></th>
+              <th style="width:90px">Quantity Sold<span class="required"></span><span class="col-no">(9)</span></th>
+              <th style="width:90px">Closing Stock<span class="required"></span><span class="col-no">(10)</span></th>
+              <th style="width:90px">Sales Value (₹)<span class="col-no">(11)</span></th>
+              <th style="min-width:90px">Remarks<span class="col-no">(12)</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="sr">1</td>
+              <td>
+                <div class="dp">Roket 50 EC</div>
+                <div class="ds">Dhanuka Agritech</div>
+              </td>
+              <td>
+                <div class="dp">Acephate 50%</div>
+                <div class="ds">Organophosphate</div>
+              </td>
+              <td class="tc"><span class="pill pill-blue">EC (Emulsifiable)</span></td>
+              <td class="tc mono12">500 ml btl</td>
+              <td class="tc"><div class="nv">18</div></td>
+              <td class="tc"><div class="nv">24</div></td>
+              <td class="tc"><div class="nv">42</div></td>
+              <td class="tc"><div class="nv">20</div></td>
+              <td class="tc"><div class="nv num-green">22</div></td>
+              <td class="tr"><div class="nv">₹9,600</div></td>
+              <td style="font-size:11px;color:var(--ink-4)">—</td>
+            </tr>
+            <tr class="alt">
+              <td class="sr">2</td>
+              <td>
+                <div class="dp">Confidor 200 SL</div>
+                <div class="ds">Bayer CropScience</div>
+              </td>
+              <td>
+                <div class="dp">Imidacloprid 17.8%</div>
+                <div class="ds">Neonicotinoid</div>
+              </td>
+              <td class="tc"><span class="pill pill-blue">SL (Soluble)</span></td>
+              <td class="tc mono12">100 ml btl</td>
+              <td class="tc"><div class="nv">30</div></td>
+              <td class="tc"><div class="nv">0</div></td>
+              <td class="tc"><div class="nv">30</div></td>
+              <td class="tc"><div class="nv">12</div></td>
+              <td class="tc"><div class="nv num-amber">18</div></td>
+              <td class="tr"><div class="nv">₹3,840</div></td>
+              <td style="font-size:11px;color:var(--warn)">Exp. soon — clear stock</td>
+            </tr>
+            <tr>
+              <td class="sr">3</td>
+              <td>
+                <div class="dp">Ampligo 150 ZC</div>
+                <div class="ds">Syngenta India</div>
+              </td>
+              <td style="font-size:11px">
+                Lambda-cyhalothrin 106g/L +<br>Chlorantraniliprole 200g/L
+              </td>
+              <td class="tc"><span class="pill pill-grey">ZC (Capsule Susp.)</span></td>
+              <td class="tc mono12">250 ml btl</td>
+              <td class="tc"><div class="nv">10</div></td>
+              <td class="tc"><div class="nv">20</div></td>
+              <td class="tc"><div class="nv">30</div></td>
+              <td class="tc"><div class="nv">8</div></td>
+              <td class="tc"><div class="nv num-green">22</div></td>
+              <td class="tr"><div class="nv">₹10,000</div></td>
+              <td style="font-size:11px;color:var(--ink-4)">—</td>
+            </tr>
+            <tr class="total">
+              <td colspan="5" style="text-align:right;padding-right:16px;font-size:12px;color:var(--accent-2)">March 2026 Monthly Total →</td>
+              <td class="tc"><div class="nv">58</div></td>
+              <td class="tc"><div class="nv">44</div></td>
+              <td class="tc"><div class="nv">102</div></td>
+              <td class="tc"><div class="nv">40</div></td>
+              <td class="tc"><div class="nv num-green">62</div></td>
+              <td class="tr"><div class="nv">₹23,440</div></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="padding:14px 24px;border-top:1px solid var(--rule);background:#fafaf9;font-size:12px;color:var(--ink-3);font-style:italic">
+        Declaration: I hereby certify that the above statement of stock and sales of insecticides is true and correct to the best of my knowledge.
+      </div>
+
+      <div class="form-footer">
+        <div class="sig">
+          <div class="sig-lbl">Dealer Signature</div>
+          <div class="sig-name">Authorized Signatory</div>
+          <div class="sig-line"></div>
+          <div class="sig-date">Date of Submission: ___________________</div>
+        </div>
+        <div class="sig-center">
+          <div class="stamp-area">Shop Stamp</div>
+        </div>
+        <div class="sig" style="border-right:none">
+          <div class="sig-lbl">Received By — Licensing Authority</div>
+          <div class="sig-name">Dept. of Agriculture</div>
+          <div class="sig-line"></div>
+          <div class="sig-date">Receipt Date: ___________________</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+
+<!-- ═══════════════════════════════════════════════
+     SEED STOCK REGISTER
+═══════════════════════════════════════════════ -->
+<div class="register-block" id="seed-reg">
+  <div class="reg-heading">
+    <div class="reg-heading-left">
+      <div class="tag">Seeds Act 1966 + State Seed Rules</div>
+      <h2>Seed Stock Register</h2>
+      <div class="subname">Daily record of all certified seed stock · Germination certificate validity tracking</div>
+    </div>
+    <div class="reg-heading-right">
+      <span class="badge badge-red">Lot No. Required</span>
+      <span class="badge badge-amber">Germination Cert. Mandatory</span>
+      <span class="badge badge-blue">Seed Class Must Be Noted</span>
+      <span class="badge badge-green">Daily Update</span>
+    </div>
+  </div>
+
+  <div class="alert-note">
+    <strong>Legal Consequence</strong>
+    Selling seeds without a valid germination certificate, selling seeds with germination below minimum standards, or selling unlabeled seeds = prosecution under Section 19 of the Seeds Act 1966 (up to 3 years imprisonment + fine).
+  </div>
+
+  <div class="info-note">
+    <strong>Auto-generation:</strong> PrithviX auto-fills the Seed Register from stock_receipts (lot number, germination cert, variety, seed class) and from seed sales. Germination expiry is color-coded — expired certs prevent sale at billing.
+  </div>
+
+  <div class="form-paper">
+    <div class="form-hdr">
+      <div class="form-hdr-left">
+        <div class="gov">Seeds Act, 1966 — State Seed Rules</div>
+        <div class="title">Seed Stock Register / Daily + Monthly</div>
+      </div>
+      <div class="form-hdr-right">
+        <div class="form-no" style="font-size:16px">Seed Register</div>
+        <div class="form-no-sub">Seeds Act 1966</div>
+      </div>
+    </div>
+
+    <div class="dealer-grid">
+      <div class="dealer-cell">
+        <div class="lbl">Dealer Name</div>
+        <div class="val">Ramlal Agro Centre</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Seed License Number</div>
+        <div class="val mono">SEED/RJ/JJN/0771/2023</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">License Valid Until</div>
+        <div class="val mono green">31-03-2027</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Address</div>
+        <div class="val">Jhunjhunu, Rajasthan</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Period</div>
+        <div class="val mono">April 2026</div>
+      </div>
+      <div class="dealer-cell">
+        <div class="lbl">Active Lots in Stock</div>
+        <div class="val" style="color:var(--accent-2)">6 lots</div>
+      </div>
+    </div>
+
+    <div style="background:#fff7ed;border-bottom:1px solid #fed7aa;padding:8px 20px;display:flex;align-items:center;gap:16px;font-size:11px;font-family:var(--mono)">
+      <span style="color:#c2410c;font-weight:600">1 lot expiring within 30 days</span>
+      <span style="color:var(--ink-3)">|</span>
+      <span style="color:var(--accent-2)">4 lots valid</span>
+      <span style="color:var(--ink-3)">|</span>
+      <span style="color:var(--danger)">1 lot expired — sale blocked</span>
+    </div>
+
+    <div class="tbl-wrap">
+      <table class="reg">
+        <thead>
+          <tr>
+            <th style="width:34px">S.No<span class="col-no">(1)</span></th>
+            <th style="width:88px">Date<span class="required"></span><span class="col-no">(2)</span></th>
+            <th style="min-width:140px">Crop / Variety Name<span class="required"></span><span class="col-no">(3)</span></th>
+            <th style="min-width:90px">Seed Class<span class="required"></span><span class="col-no">(4)</span></th>
+            <th style="min-width:110px">Lot Number<span class="required"></span><span class="col-no">(5)</span></th>
+            <th style="min-width:110px">Source / Supplier<span class="col-no">(6)</span></th>
+            <th style="width:80px">Pack Size<span class="col-no">(7)</span></th>
+            <th style="width:80px">Opening Stock<span class="required"></span><span class="col-no">(8)</span></th>
+            <th style="width:80px">Receipts<span class="col-no">(9)</span></th>
+            <th style="width:80px">Total<span class="col-no">(10)</span></th>
+            <th style="width:76px">Sales<span class="required"></span><span class="col-no">(11)</span></th>
+            <th style="width:76px">Closing Stock<span class="required"></span><span class="col-no">(12)</span></th>
+            <th style="min-width:110px">Germination Cert. No.<span class="required"></span><span class="col-no">(13)</span></th>
+            <th style="width:100px">Germination Valid Until<span class="required"></span><span class="col-no">(14)</span></th>
+            <th style="min-width:80px">Remarks<span class="col-no">(15)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sr">1</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">Wheat GW-322</div>
+              <div class="ds">Triticum aestivum</div>
+            </td>
+            <td class="tc"><span class="pill pill-green">Certified</span></td>
+            <td class="mono12" style="font-size:10px">NSC/RJ/W/2025/4421</td>
+            <td style="font-size:11px">
+              <div class="dp" style="font-size:11px">RSSC, Jaipur</div>
+              <div class="ds">INV# RSSC/2025/114</div>
+            </td>
+            <td class="tc mono12">40 kg bag</td>
+            <td class="tc"><div class="nv">60</div><span class="nu">Bags</span></td>
+            <td class="tc"><div class="nv">0</div></td>
+            <td class="tc"><div class="nv">60</div></td>
+            <td class="tc"><div class="nv">22</div></td>
+            <td class="tc"><div class="nv num-green">38</div></td>
+            <td class="mono12" style="font-size:10px">GC/RJ/W/2025/0341</td>
+            <td class="tc"><span class="germ-valid">31-08-2026</span></td>
+            <td style="font-size:11px;color:var(--ink-4)">Good demand</td>
+          </tr>
+          <tr class="alt">
+            <td class="sr">2</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">Mustard RH-749</div>
+              <div class="ds">Brassica juncea</div>
+            </td>
+            <td class="tc"><span class="pill pill-blue">Foundation</span></td>
+            <td class="mono12" style="font-size:10px">NSC/RJ/M/2025/1192</td>
+            <td style="font-size:11px">
+              <div class="dp" style="font-size:11px">NRCRM, Bharatpur</div>
+              <div class="ds">INV# NRCRM/25/078</div>
+            </td>
+            <td class="tc mono12">5 kg pkt</td>
+            <td class="tc"><div class="nv">120</div><span class="nu">Pkts</span></td>
+            <td class="tc"><div class="nv">200</div></td>
+            <td class="tc"><div class="nv">320</div></td>
+            <td class="tc"><div class="nv">85</div></td>
+            <td class="tc"><div class="nv num-green">235</div></td>
+            <td class="mono12" style="font-size:10px">GC/RJ/M/2025/0118</td>
+            <td class="tc"><span class="germ-valid">30-09-2026</span></td>
+            <td style="font-size:11px;color:var(--ink-4)">—</td>
+          </tr>
+          <tr>
+            <td class="sr">3</td>
+            <td class="tc mono12">01/04/2026</td>
+            <td>
+              <div class="dp">Bajra HHB-67</div>
+              <div class="ds">Pennisetum glaucum</div>
+            </td>
+            <td class="tc"><span class="pill pill-green">Certified</span></td>
+            <td class="mono12" style="font-size:10px">NSC/RJ/B/2025/3305</td>
+            <td style="font-size:11px">
+              <div class="dp" style="font-size:11px">AICRP-Pearl Millet</div>
+              <div class="ds">INV# AICRP/25/229</div>
+            </td>
+            <td class="tc mono12">1 kg pkt</td>
+            <td class="tc"><div class="nv">200</div><span class="nu">Pkts</span></td>
+            <td class="tc"><div class="nv">0</div></td>
+            <td class="tc"><div class="nv">200</div></td>
+            <td class="tc"><div class="nv">63</div></td>
+            <td class="tc"><div class="nv num-amber">137</div></td>
+            <td class="mono12" style="font-size:10px">GC/RJ/B/2025/0882</td>
+            <td class="tc"><span class="germ-warn">15-05-2026</span></td>
+            <td style="font-size:11px;color:var(--warn)">Exp. in 44 days</td>
+          </tr>
+          <tr class="alt">
+            <td class="sr">4</td>
+            <td class="tc mono12">02/04/2026</td>
+            <td>
+              <div class="dp">Groundnut TAG-24</div>
+              <div class="ds">Arachis hypogaea</div>
+            </td>
+            <td class="tc"><span class="pill pill-green">Certified</span></td>
+            <td class="mono12" style="font-size:10px">NSC/RJ/G/2024/7701</td>
+            <td style="font-size:11px">
+              <div class="dp" style="font-size:11px">NRCG, Junagadh</div>
+            </td>
+            <td class="tc mono12">25 kg bag</td>
+            <td class="tc"><div class="nv">30</div><span class="nu">Bags</span></td>
+            <td class="tc"><div class="nv">0</div></td>
+            <td class="tc"><div class="nv">30</div></td>
+            <td class="tc"><div class="nv">0</div></td>
+            <td class="tc">
+              <div class="nv num-red">30</div>
+              <div style="margin-top:2px"><span class="pill pill-red">Cert. Exp.</span></div>
+            </td>
+            <td class="mono12" style="font-size:10px">GC/RJ/G/2024/0240</td>
+            <td class="tc"><span class="germ-exp">28/02/2026</span></td>
+            <td style="font-size:11px;color:var(--danger)">Sale blocked — cert expired</td>
+          </tr>
+          <tr class="total">
+            <td colspan="7" style="text-align:right;padding-right:16px;font-size:12px;color:var(--accent-2)">April 2026 Total →</td>
+            <td class="tc"><div class="nv">410</div></td>
+            <td class="tc"><div class="nv">200</div></td>
+            <td class="tc"><div class="nv">610</div></td>
+            <td class="tc"><div class="nv">170</div></td>
+            <td class="tc"><div class="nv num-green">440</div></td>
+            <td colspan="3"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="padding:10px 20px;border-top:1px solid var(--rule);background:#fafaf9;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;font-family:var(--mono);color:var(--ink-3)">
+      <span>Legend:</span>
+      <span style="color:var(--accent-2)">Green date = Valid germination cert</span>
+      <span style="color:var(--warn)">Amber date = Expiring within 60 days</span>
+      <span style="color:var(--danger)">Red strikethrough = Cert expired — sale blocked</span>
+    </div>
+
+    <div class="form-footer">
+      <div class="sig">
+        <div class="sig-lbl">Dealer Signature</div>
+        <div class="sig-name">Authorized Dealer</div>
+        <div class="sig-line"></div>
+        <div class="sig-date">Date: ___________________</div>
+      </div>
+      <div class="sig-center">
+        <div class="stamp-area">Dealer Stamp</div>
+      </div>
+      <div class="sig" style="border-right:none">
+        <div class="sig-lbl">Seed Inspector / Officer</div>
+        <div class="sig-name">State Seed Inspector</div>
+        <div class="sig-line"></div>
+        <div class="sig-date">Inspection Date: ___________________</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field-notes">
+    <h4>Field-by-Field Reference — Seed Register</h4>
+    <div class="field-notes-grid">
+      <div class="fn-row"><span class="fn-num">(3)</span><span class="fn-desc">Crop + variety name — store both common name and scientific name</span></div>
+      <div class="fn-row"><span class="fn-num">(4)</span><span class="fn-desc">Seed class: Breeder / Foundation / Certified / Truthfully Labelled (TL)</span></div>
+      <div class="fn-row"><span class="fn-num">(5)</span><span class="fn-desc">Lot number — mandatory; each lot received has unique cert + germination validity</span></div>
+      <div class="fn-row"><span class="fn-num">(6)</span><span class="fn-desc">Source — RSSC, NSC, NRCS, or private seed company with state certification</span></div>
+      <div class="fn-row"><span class="fn-num">(13)</span><span class="fn-desc">Germination Certificate No. — issued by State Seed Testing Lab; store per lot</span></div>
+      <div class="fn-row"><span class="fn-num">(14)</span><span class="fn-desc">Germination valid until — PrithviX must block sale if date passed; color-coded</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- .main -->
+
+<script>
+function switchTab(e, id) {
+  var strip = e.target.closest('.tab-strip');
+  var block = strip.closest('.register-block');
+  strip.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  block.querySelectorAll('.tab-pane').forEach(function(p){ p.classList.remove('active'); });
+  e.target.classList.add('active');
+  block.querySelector('#' + id).classList.add('active');
+}
+</script>
+</body>
+</html>

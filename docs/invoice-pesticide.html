@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TAX INVOICE — Pesticide | PrithviX</title>
+  <style>
+    @page { size: A4 portrait; margin: 8mm; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 10px; background: #d0d0d0; }
+
+    .toolbar { background: #8B2500; padding: 10px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; position: sticky; top: 0; z-index: 99; }
+    .toolbar span { color: #ffd5c8; font-size: 12px; font-weight: 700; }
+    .btn { padding: 7px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; }
+    .btn-p { background: #fff; color: #8B2500; }
+    .btn-c { background: #cc0000; color: #fff; }
+    .btn-d { background: #555; color: #fff; }
+
+    .page-wrap { max-width: 800px; margin: 24px auto; box-shadow: 0 6px 30px rgba(0,0,0,0.3); }
+
+    @media print {
+      body { background: #fff; }
+      .toolbar { display: none; }
+      .page-wrap { max-width: 100%; margin: 0; box-shadow: none; }
+    }
+
+    .inv { background: #fff; border: 1.5px solid #8B2500; position: relative; overflow: hidden; }
+
+    .wm { position: absolute; top: 48%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 96px; font-weight: 900; color: rgba(0,0,0,0.06); white-space: nowrap; pointer-events: none; letter-spacing: 14px; z-index: 0; display: none; }
+    .wm.on { display: block; }
+
+    /* TITLE */
+    .inv-title { text-align: center; font-size: 22px; font-weight: 900; color: #8B2500; padding: 14px 0 10px; border-bottom: 1px solid #f0c0b0; letter-spacing: 1px; position: relative; z-index: 1; }
+
+    /* HEADER */
+    .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 14px 10px; border-bottom: 1px solid #f0c0b0; gap: 10px; position: relative; z-index: 1; }
+    .hdr-left { flex: 1; }
+    .logo-area { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .logo-box { width: 52px; height: 46px; border: 1px dashed #aaa; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #bbb; flex-shrink: 0; }
+    .shop-name { font-size: 15px; font-weight: 900; color: #1a1a1a; line-height: 1.2; }
+    .shop-tagline { font-size: 9px; color: #8B2500; font-weight: 600; margin-top: 1px; }
+    .shop-detail { font-size: 9.5px; color: #444; line-height: 1.7; margin-top: 4px; }
+    .shop-detail strong { color: #111; }
+    .hdr-right { min-width: 210px; }
+    .inv-meta-row { display: flex; gap: 4px; font-size: 10px; line-height: 1.85; color: #222; }
+    .inv-meta-row .lbl { font-weight: 700; min-width: 115px; }
+    .credit-badge { display: none; margin-top: 6px; padding: 3px 10px; border: 1.5px solid #cc0000; border-radius: 4px; color: #cc0000; font-size: 9px; font-weight: 800; background: #fff5f5; width: fit-content; }
+
+    /* BILL TO */
+    .bill-section { display: flex; border-bottom: 1px solid #f0c0b0; position: relative; z-index: 1; }
+    .bill-box { flex: 1; padding: 8px 14px; background: #fff8f5; }
+    .bill-box + .bill-box { border-left: 1px solid #f0c0b0; }
+    .bill-box-title { font-size: 9px; font-weight: 700; color: #8B2500; font-style: italic; margin-bottom: 5px; }
+    .buyer-name { font-size: 12px; font-weight: 900; color: #111; }
+    .buyer-detail { font-size: 9.5px; color: #444; line-height: 1.8; margin-top: 2px; }
+    .balance-due { color: #cc0000; font-weight: 800; font-size: 11px; margin-top: 3px; }
+
+    /* TABLE — smaller font for 14 columns */
+    .table-wrap { position: relative; z-index: 1; overflow-x: auto; }
+    table.items { width: 100%; border-collapse: collapse; }
+    table.items thead th { background: #8B2500; color: #fff; padding: 5px 3px; font-size: 8.5px; font-weight: 700; border: 1px solid #5a1800; text-align: center; }
+    table.items thead th.left { text-align: left; padding-left: 6px; }
+    table.items tbody td { padding: 5px 3px; border: 1px solid #f0c0b0; font-size: 9px; color: #111; vertical-align: middle; }
+    table.items tbody tr:nth-child(even) { background: #fff8f5; }
+    table.items tfoot td { background: #8B2500; color: #fff; font-weight: 800; font-size: 9px; padding: 5px 3px; border: 1px solid #5a1800; text-align: center; }
+    table.items tfoot td.left { text-align: left; padding-left: 6px; }
+    .td-c { text-align: center; }
+    .td-r { text-align: right; padding-right: 4px !important; }
+    .td-l { text-align: left; padding-left: 6px !important; }
+    .item-name { font-weight: 700; font-size: 9px; }
+    .item-tech { font-size: 7.5px; color: #666; font-style: italic; margin-top: 1px; }
+    .expire-warn { color: #cc0000; font-weight: 700; }
+    .batch-warn  { color: #e65c00; font-weight: 700; }
+
+    /* LOWER */
+    .lower { display: flex; border-top: 1px solid #f0c0b0; position: relative; z-index: 1; }
+    .lower-left { flex: 1; padding: 10px 14px; border-right: 1px solid #f0c0b0; }
+    .lower-right { width: 260px; padding: 10px 14px; }
+    .section-title { font-size: 10px; font-weight: 700; color: #8B2500; font-style: italic; margin-bottom: 6px; }
+    .detail-row { display: flex; gap: 6px; font-size: 9.5px; line-height: 1.9; }
+    .detail-row .dl { color: #555; min-width: 100px; }
+    .detail-row .dv { font-weight: 700; color: #111; }
+
+    .sum-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; padding: 2px 0; color: #333; border-bottom: 1px dashed #e0e0e0; }
+    .sum-row:last-child { border-bottom: none; }
+    .sum-row.total-row { font-size: 12px; font-weight: 900; color: #1a1a1a; border-top: 1.5px solid #8B2500; border-bottom: 1.5px solid #8B2500; padding: 4px 0; margin: 3px 0; }
+    .sum-row .slabel { color: #444; }
+    .sum-row .svalue { font-weight: 600; }
+    .sum-row.total-row .svalue { font-weight: 900; color: #8B2500; }
+
+    /* Safety notice */
+    .safety-notice { padding: 7px 14px; border-top: 1px solid #f0c0b0; background: #fff5f0; position: relative; z-index: 1; }
+    .safety-notice .s-title { font-size: 9px; font-weight: 800; color: #cc0000; margin-bottom: 2px; }
+    .safety-notice .s-text  { font-size: 8.5px; color: #555; line-height: 1.6; }
+
+    .amt-words { padding: 7px 14px; border-top: 1px solid #f0c0b0; font-size: 10px; color: #1a1a1a; position: relative; z-index: 1; }
+    .amt-words strong { color: #8B2500; }
+
+    .footer { display: flex; align-items: flex-end; border-top: 1px solid #f0c0b0; position: relative; z-index: 1; }
+    .footer-col { flex: 1; padding: 8px 12px 10px; font-size: 9px; color: #444; line-height: 1.7; }
+    .footer-col + .footer-col { border-left: 1px solid #f0c0b0; }
+    .footer-col.center { text-align: center; }
+    .footer-col.right  { text-align: right; }
+    .sign-gap { height: 32px; }
+    .sign-line { border-top: 1px solid #111; padding-top: 3px; font-size: 9px; font-weight: 700; color: #111; }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span>🧪 Pesticide Invoice Preview</span>
+  <button class="btn btn-p" onclick="window.print()">🖨 Print / Save PDF</button>
+  <button class="btn btn-c" onclick="toggleCredit()">💳 Toggle Credit/Cash</button>
+  <button class="btn btn-d" onclick="toggleDupe()">📋 Toggle Duplicate</button>
+</div>
+
+<div class="page-wrap">
+<div class="inv">
+  <div class="wm" id="wm">DUPLICATE</div>
+
+  <!-- ① TITLE -->
+  <div class="inv-title">TAX INVOICE</div>
+
+  <!-- ② HEADER -->
+  <div class="header">
+    <div class="hdr-left">
+      <div class="logo-area">
+        <div class="logo-box">LOGO</div>
+        <div>
+          <div class="shop-name">Ramji Agro Centre</div>
+          <div class="shop-tagline">Authorised Pesticide &amp; Insecticide Dealer</div>
+        </div>
+      </div>
+      <div class="shop-detail">
+        <div><strong>Ramlal Sharma</strong> (Proprietor)</div>
+        <div>Main Market, Nagalia, Sikar, Rajasthan — 332001</div>
+        <div>Mobile: <strong>9876543210</strong></div>
+        <div>GST: <strong>08ABCDE1234F1Z5</strong> &nbsp;|&nbsp; State: Rajasthan &nbsp;|&nbsp; Code: 08</div>
+        <div>Pesticide/Insecticide License No.: <strong>RAJ/PEST/2021/1823</strong></div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="inv-meta-row"><span class="lbl">Invoice No.:</span><span>PEST/2025-26/031</span></div>
+      <div class="inv-meta-row"><span class="lbl">Invoice Date:</span><span>14 April 2026 &nbsp;14:32:07</span></div>
+      <div class="inv-meta-row"><span class="lbl">State:</span><span>Rajasthan &nbsp;|&nbsp; Code: 08</span></div>
+      <div class="inv-meta-row"><span class="lbl">Place of Supply:</span><span>Rajasthan</span></div>
+      <div class="credit-badge" id="credit-badge">● CREDIT SALE</div>
+    </div>
+  </div>
+
+  <!-- ③ BILL TO -->
+  <div class="bill-section">
+    <div class="bill-box">
+      <div class="bill-box-title">Bill To (Buyer)</div>
+      <div class="buyer-name">Ramesh Kumar</div>
+      <div class="buyer-detail">
+        Village: Nagalia, Dist: Sikar<br>
+        State: Rajasthan &nbsp;|&nbsp; State Code: 08<br>
+        Mobile: 9988776655
+      </div>
+    </div>
+    <div class="bill-box" id="pay-box">
+      <div class="bill-box-title">Payment Details</div>
+      <div id="pay-cash-info" class="buyer-detail"><strong>Payment Mode: Cash</strong><br>Received in Full — Thank you!</div>
+      <div id="pay-credit-info" style="display:none;">
+        <div class="buyer-detail"><strong>Payment Mode: Credit</strong><br>Due Date: <strong>1 November 2026</strong><br>Advance Paid: <strong>₹200.00</strong></div>
+        <div class="balance-due">Balance Due: ₹325.08</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ ITEMS TABLE — 14 columns -->
+  <div class="table-wrap">
+    <table class="items">
+      <thead>
+        <tr>
+          <th style="width:3%;">Sr.</th>
+          <th class="left" style="width:14%;">Trade Name</th>
+          <th style="width:12%;">Technical Name</th>
+          <th style="width:8%;">Formulation</th>
+          <th style="width:8%;">Company</th>
+          <th style="width:8%;">Batch No.</th>
+          <th style="width:7%;">Mfg. Date</th>
+          <th style="width:7%;">Expiry Date</th>
+          <th style="width:6%;">HSN</th>
+          <th style="width:5%;">Qty</th>
+          <th style="width:7%;">MRP ₹</th>
+          <th style="width:7%;">Rate ₹</th>
+          <th style="width:5%;">GST %</th>
+          <th style="width:7%;">Total ₹</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-c">1</td>
+          <td class="td-l">
+            <div class="item-name">Roket</div>
+            <div class="item-tech">Insecticide</div>
+          </td>
+          <td class="td-c" style="font-size:8px;">Acephate 75% SP</td>
+          <td class="td-c" style="font-size:8px;">Soluble Powder</td>
+          <td class="td-c" style="font-size:8px;">Dhanuka</td>
+          <td class="td-c">DH2024B112</td>
+          <td class="td-c">06/2024</td>
+          <td class="td-c">05/2026</td>
+          <td class="td-c">3808</td>
+          <td class="td-c">3 Pkt</td>
+          <td class="td-r">185.00</td>
+          <td class="td-r">175.00</td>
+          <td class="td-c">18%</td>
+          <td class="td-r"><strong>525.00</strong></td>
+        </tr>
+        <tr>
+          <td class="td-c">2</td>
+          <td class="td-l">
+            <div class="item-name">Confidor</div>
+            <div class="item-tech">Insecticide</div>
+          </td>
+          <td class="td-c" style="font-size:8px;">Imidacloprid 17.8 SL</td>
+          <td class="td-c" style="font-size:8px;">Liquid</td>
+          <td class="td-c" style="font-size:8px;">Bayer</td>
+          <td class="td-c">BY2024C089</td>
+          <td class="td-c">03/2024</td>
+          <td class="td-c expire-warn">03/2026 ⚠</td>
+          <td class="td-c">3808</td>
+          <td class="td-c">2 Pkt</td>
+          <td class="td-r">320.00</td>
+          <td class="td-r">300.00</td>
+          <td class="td-c">18%</td>
+          <td class="td-r"><strong>600.00</strong></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2" class="left">SUB TOTAL</td>
+          <td></td><td></td><td></td>
+          <td></td><td></td><td></td><td></td>
+          <td class="td-c">5 Qty</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="td-r">₹1,125.00</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- ⑤ LOWER -->
+  <div class="lower">
+    <div class="lower-left">
+      <div class="section-title">Payment Info</div>
+      <div class="detail-row"><span class="dl">Payment Mode:</span><span class="dv" id="pm-label">Cash</span></div>
+      <div class="detail-row"><span class="dl">UPI ID:</span><span class="dv">ramjiagrocentre@upi</span></div>
+      <br>
+      <div class="section-title">Sold By:</div>
+      <div style="font-size:9.5px;color:#444;line-height:1.7;">
+        <strong>Ramji Agro Centre</strong><br>
+        Ramlal Sharma (Prop.) | Nagalia, Sikar, Rajasthan
+      </div>
+    </div>
+    <div class="lower-right">
+      <div class="sum-row"><span class="slabel">Taxable Amount</span><span class="svalue">₹954.24</span></div>
+      <div class="sum-row"><span class="slabel">CGST @ 9%</span><span class="svalue">₹85.38</span></div>
+      <div class="sum-row"><span class="slabel">SGST @ 9%</span><span class="svalue">₹85.38</span></div>
+      <div class="sum-row"><span class="slabel">Total Discount</span><span class="svalue">- ₹0.00</span></div>
+      <div class="sum-row"><span class="slabel">Round-Off</span><span class="svalue">- ₹0.00</span></div>
+      <div class="sum-row total-row">
+        <span>Total Payable Amount</span>
+        <span class="svalue">₹1,125.00</span>
+      </div>
+      <div class="sum-row" id="sum-recv"><span class="slabel">Amount Received</span><span class="svalue">₹1,125.00</span></div>
+      <div class="sum-row" id="sum-bal"><span class="slabel">Remaining Balance</span><span class="svalue">₹0.00</span></div>
+    </div>
+  </div>
+
+  <!-- ⑥ SAFETY NOTICE -->
+  <div class="safety-notice">
+    <div class="s-title">⚠ Safety Notice (Mandatory under Insecticides Act, 1968):</div>
+    <div class="s-text">Store away from children and food. Use as directed on label. In case of poisoning contact nearest doctor immediately. Keep out of reach of children and animals. Dispose of empty containers safely.</div>
+  </div>
+
+  <!-- ⑦ AMOUNT IN WORDS -->
+  <div class="amt-words">
+    <strong>Total Payable Amount:</strong> One Thousand One Hundred Twenty Five Rupees Only
+  </div>
+
+  <!-- ⑧ FOOTER -->
+  <div class="footer">
+    <div class="footer-col">
+      <strong>Terms &amp; Conditions:</strong><br>
+      1. Goods once sold will not be returned.<br>
+      2. Disputes subject to local jurisdiction only.<br>
+      3. Please retain this bill for future reference.
+    </div>
+    <div class="footer-col center">
+      Scan &amp; Pay using any UPI App<br>
+      <div style="margin:5px auto;width:52px;height:52px;border:1px dashed #aaa;display:flex;align-items:center;justify-content:center;font-size:7px;color:#bbb;">UPI QR</div>
+      <span style="font-size:8.5px;color:#555;">ramjiagrocentre@upi</span>
+    </div>
+    <div class="footer-col right">
+      <div style="font-size:9px;">For Ramji Agro Centre</div>
+      <div class="sign-gap"></div>
+      <div>Signature</div>
+      <div class="sign-line">Authorised Signatory</div>
+    </div>
+  </div>
+
+</div></div>
+
+<script>
+  var isCredit = false, isDupe = false;
+  function toggleCredit() {
+    isCredit = !isCredit;
+    document.getElementById('credit-badge').style.display = isCredit ? 'block' : 'none';
+    document.getElementById('pay-cash-info').style.display = isCredit ? 'none' : 'block';
+    document.getElementById('pay-credit-info').style.display = isCredit ? 'block' : 'none';
+    document.getElementById('pm-label').textContent = isCredit ? 'Credit (Udhaar)' : 'Cash';
+    document.getElementById('sum-recv').querySelector('.svalue').textContent = isCredit ? '₹200.00' : '₹1,125.00';
+    document.getElementById('sum-bal').querySelector('.svalue').textContent  = isCredit ? '₹925.00' : '₹0.00';
+    document.getElementById('sum-bal').querySelector('.svalue').style.color  = isCredit ? '#cc0000' : '#111';
+  }
+  function toggleDupe() { isDupe = !isDupe; document.getElementById('wm').classList.toggle('on', isDupe); }
+</script>
+</body>
+</html>

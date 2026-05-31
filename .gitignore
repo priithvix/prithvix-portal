@@ -20,9 +20,16 @@
 # production
 /build
 
+# supabase cli (linked project ref / credentials — keep local)
+.supabase/
+
 # misc
 .DS_Store
 *.pem
+
+# IDE / local agent tooling
+.cursor/
+.claude/
 
 # debug
 npm-debug.log*

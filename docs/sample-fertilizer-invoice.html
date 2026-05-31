@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fertilizer Invoice Sample — PrithviX</title>
+  <style>
+    /* ── Page Setup ── */
+    @page { size: A4 portrait; margin: 15mm; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      color: #111;
+      background: #e8e8e8;
+    }
+
+    /* Preview wrapper (removed when printing) */
+    .page-wrap {
+      max-width: 794px;          /* A4 width at 96dpi */
+      margin: 30px auto;
+      background: #fff;
+      padding: 20mm 15mm;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      position: relative;
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page-wrap { margin: 0; padding: 0; box-shadow: none; }
+      .no-print { display: none !important; }
+    }
+
+    /* ── Colour palette ── */
+    :root {
+      --green:        #2d6a2d;
+      --green-light:  #f0f7f0;
+      --green-border: #c0d9c0;
+    }
+
+    /* ── Watermark ── */
+    .watermark {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-size: 90px;
+      font-weight: 900;
+      color: rgba(0, 0, 0, 0.045);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: 12px;
+      user-select: none;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      border-bottom: 3px solid var(--green);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .header .logo {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 70px;
+      height: 60px;
+      border: 1px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #bbb;
+      border-radius: 4px;
+    }
+    .shop-name-hindi {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1.2;
+    }
+    .shop-name-english {
+      font-size: 14px;
+      color: var(--green);
+      font-weight: 600;
+    }
+    .shop-owner {
+      font-size: 12px;
+      color: #444;
+      margin-top: 2px;
+    }
+    .shop-address {
+      font-size: 10px;
+      color: #666;
+      margin-top: 2px;
+    }
+    .license-row {
+      margin-top: 7px;
+      padding-top: 6px;
+      border-top: 1px solid var(--green);
+      font-size: 10px;
+      color: #333;
+    }
+    .license-row strong { color: #111; }
+
+    /* ── Invoice title ── */
+    .invoice-title {
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--green);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin: 10px 0 8px;
+      border: 2px solid var(--green);
+      padding: 6px 0;
+      background: var(--green-light);
+      border-radius: 3px;
+    }
+
+    /* ── Identity bar ── */
+    .id-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border: 1px solid var(--green);
+      padding: 8px 10px;
+      margin-bottom: 12px;
+      background: var(--green-light);
+      border-radius: 4px;
+      gap: 10px;
+    }
+    .id-bar-left  { flex: 1; }
+    .id-bar-mid   { text-align: center; align-self: center; flex-shrink: 0; }
+    .id-bar-right { flex: 1; text-align: right; font-size: 10px; line-height: 1.7; }
+
+    .id-field { font-size: 10px; line-height: 1.7; }
+    .id-field strong { font-size: 11px; }
+
+    /* Payment badge */
+    .badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    .badge-cash   { background: #c8f7c5; color: #155012; border: 1.5px solid #155012; }
+    .badge-credit { background: #ffd5d5; color: #8b0000; border: 1.5px solid #8b0000; }
+    .badge-upi    { background: #d5e8ff; color: #00408b; border: 1.5px solid #00408b; }
+
+    /* ── Items table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      font-size: 10px;
+    }
+    thead th {
+      background: var(--green);
+      color: #fff;
+      padding: 6px 4px;
+      text-align: center;
+      border: 1px solid #1a4d1a;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    thead th.left { text-align: left; padding-left: 6px; }
+    tbody td {
+      padding: 5px 4px;
+      border: 1px solid var(--green-border);
+      vertical-align: middle;
+    }
+    tbody tr:nth-child(even) { background: var(--green-light); }
+    .col-center { text-align: center; }
+    .col-right  { text-align: right; }
+    .col-bold   { font-weight: 700; }
+
+    .product-name-hindi { font-weight: 700; font-size: 11px; }
+    .product-name-eng   { font-size: 9px; color: #444; }
+    .product-company    { font-size: 9px; color: #888; }
+
+    /* ── Totals block ── */
+    .totals-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+    .totals-box {
+      width: 320px;
+      border: 1px solid var(--green);
+      padding: 10px 12px;
+      background: var(--green-light);
+      border-radius: 4px;
+    }
+    .tot-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 0;
+      font-size: 10px;
+    }
+    .tot-row.grand {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--green);
+      border-top: 2px solid var(--green);
+      margin-top: 6px;
+      padding-top: 5px;
+    }
+    .amount-words {
+      margin-top: 8px;
+      padding-top: 7px;
+      border-top: 1px dashed var(--green);
+      font-size: 9.5px;
+      font-style: italic;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    /* ── Payment section ── */
+    .payment-section {
+      border: 1px solid #e8c870;
+      padding: 8px 10px;
+      margin: 8px 0;
+      border-radius: 4px;
+      background: #fffdf0;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+    .payment-section .pay-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #7B5E00;
+      margin-bottom: 4px;
+    }
+    .balance-due { font-size: 11px; font-weight: 800; color: #8b0000; }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px solid var(--green);
+    }
+    .footer-terms {
+      flex: 1;
+      font-size: 9px;
+      color: #555;
+      line-height: 1.8;
+    }
+    .footer-sign {
+      width: 200px;
+      text-align: center;
+      font-size: 9px;
+    }
+    .sign-line {
+      border-top: 1px solid #111;
+      margin-top: 42px;
+      padding-top: 4px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* ── Print button (only visible on screen) ── */
+    .no-print {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 100;
+    }
+    .btn-print {
+      background: #2d6a2d;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+    }
+    .btn-print:hover { background: #1a4d1a; }
+    .btn-credit {
+      background: #8b0000;
+    }
+    .btn-credit:hover { background: #600; }
+  </style>
+</head>
+<body>
+
+<!-- ── Print / Toggle buttons ──────────────────────────────────────────────── -->
+<div class="no-print">
+  <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+  <button class="btn-print btn-credit" onclick="toggleCredit()">🔄 Toggle Credit/Cash</button>
+</div>
+
+<!-- ── Invoice Page ─────────────────────────────────────────────────────────── -->
+<div class="page-wrap" id="invoice">
+
+  <!-- WATERMARK -->
+  <div class="watermark" id="watermark">ORIGINAL</div>
+
+  <!-- ── SECTION 1: Shop Header ─────────────────────────────────────────── -->
+  <div class="header">
+    <div class="logo">LOGO</div>
+
+    <div class="shop-name-hindi">रामजी एग्रो सेन्टर</div>
+    <div class="shop-name-english">Ramji Agro Centre</div>
+    <div class="shop-owner">श्री रामलाल शर्मा / Ramlal Sharma</div>
+    <div class="shop-address">मुख्य बाजार, नागलिया / Main Market, Nagalia</div>
+    <div class="shop-address">सीकर, राजस्थान</div>
+
+    <div class="license-row">
+      खाद लाइसेंस / Fertilizer Lic. No.:&nbsp;<strong>RAJ/FERT/2021/4521</strong>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      GSTIN:&nbsp;<strong>08ABCDE1234F1Z5</strong>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+      मोबाइल / Mobile:&nbsp;<strong>9876543210</strong>
+    </div>
+  </div>
+
+  <!-- ── Invoice Title ───────────────────────────────────────────────────── -->
+  <div class="invoice-title">खाद का बिल &nbsp;/&nbsp; FERTILIZER INVOICE</div>
+
+  <!-- ── SECTION 2: Identity Bar ────────────────────────────────────────── -->
+  <div class="id-bar">
+    <div class="id-bar-left">
+      <div class="id-field"><strong>बिल नं. / Invoice No.:</strong> FERT/2025-26/047</div>
+      <div class="id-field" style="margin-top:3px;">
+        <strong>दिनांक / Date:</strong> 14 अप्रैल 2026 / 14 April 2026
+      </div>
+    </div>
+
+    <div class="id-bar-mid">
+      <span class="badge badge-cash" id="badge">नकद / CASH</span>
+    </div>
+
+    <div class="id-bar-right">
+      <div><strong>किसान / Farmer:</strong> रमेश कुमार</div>
+      <div style="font-size:9px;color:#666;">Ramesh Kumar</div>
+      <div><strong>गाँव / Village:</strong> नागलिया, लक्ष्मणगढ़</div>
+      <div><strong>जिला / District:</strong> सीकर</div>
+      <div><strong>मोबाइल / Mobile:</strong> 9988776655</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: Items Table ─────────────────────────────────────────── -->
+  <table>
+    <thead>
+      <tr>
+        <th style="width:4%;">क्र.</th>
+        <th class="left" style="width:30%;">उत्पाद का नाम / Product Name</th>
+        <th style="width:9%;">पैक साइज़</th>
+        <th style="width:8%;">मात्रा / Qty</th>
+        <th style="width:8%;">MRP ₹</th>
+        <th style="width:9%;">दर / Rate ₹</th>
+        <th style="width:7%;">छूट / Disc</th>
+        <th style="width:6%;">GST %</th>
+        <th style="width:9%;">GST ₹</th>
+        <th style="width:10%;">कुल / Total ₹</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Row 1 -->
+      <tr>
+        <td class="col-center">1</td>
+        <td style="padding-left:6px;">
+          <div class="product-name-hindi">डीएपी (DAP)</div>
+          <div class="product-name-eng">Di-Ammonium Phosphate</div>
+          <div class="product-company">IFFCO</div>
+        </td>
+        <td class="col-center">50 KG BAG</td>
+        <td class="col-center">2 Bag</td>
+        <td class="col-right">₹1,350.00</td>
+        <td class="col-right">₹1,350.00</td>
+        <td class="col-center">—</td>
+        <td class="col-center">5%</td>
+        <td class="col-right">₹128.57</td>
+        <td class="col-right col-bold">₹2,700.00</td>
+      </tr>
+
+      <!-- Row 2 -->
+      <tr>
+        <td class="col-center">2</td>
+        <td style="padding-left:6px;">
+          <div class="product-name-hindi">यूरिया (Urea)</div>
+          <div class="product-name-eng">Urea — 46% N</div>
+          <div class="product-company">NFL (National Fertilizers)</div>
+        </td>
+        <td class="col-center">45 KG BAG</td>
+        <td class="col-center">3 Bag</td>
+        <td class="col-right">₹266.50</td>
+        <td class="col-right">₹266.50</td>
+        <td class="col-center">—</td>
+        <td class="col-center">5%</td>
+        <td class="col-right">₹38.07</td>
+        <td class="col-right col-bold">₹799.50</td>
+      </tr>
+
+      <!-- Row 3 -->
+      <tr>
+        <td class="col-center">3</td>
+        <td style="padding-left:6px;">
+          <div class="product-name-hindi">एमओपी (MOP)</div>
+          <div class="product-name-eng">Muriate of Potash (K₂O 60%)</div>
+          <div class="product-company">IPL — Indian Potash Ltd.</div>
+        </td>
+        <td class="col-center">50 KG BAG</td>
+        <td class="col-center">1 Bag</td>
+        <td class="col-right">₹1,100.00</td>
+        <td class="col-right">₹1,050.00</td>
+        <td class="col-right">₹50.00</td>
+        <td class="col-center">5%</td>
+        <td class="col-right">₹50.00</td>
+        <td class="col-right col-bold">₹1,050.00</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ── SECTION 4: Totals Block ────────────────────────────────────────── -->
+  <div class="totals-wrap">
+    <div class="totals-box">
+      <div class="tot-row">
+        <span>उप-कुल / Subtotal (before GST):</span>
+        <span>₹4,330.48</span>
+      </div>
+      <div class="tot-row">
+        <span>GST @ 5%:</span>
+        <span>₹216.64</span>
+      </div>
+      <div class="tot-row">
+        <span>कुल छूट / Total Discount:</span>
+        <span>− ₹50.00</span>
+      </div>
+      <div class="tot-row grand">
+        <span>शुद्ध देय / Net Payable:</span>
+        <span>₹4,549.50</span>
+      </div>
+      <div class="amount-words">
+        <div>Amount in Words: <strong>Four Thousand Five Hundred and Forty Nine Only</strong></div>
+        <div>राशि शब्दों में: केवल चार हजार पाँच सौ उनचास मात्र</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 5: Payment Details (conditional) ───────────────────────── -->
+
+  <!-- CASH version (shown by default) -->
+  <div id="pay-cash" class="payment-section" style="background:#f0fff0;border-color:#c0d9c0;">
+    <div style="font-size:10px;color:#155012;font-weight:700;">
+      ✓ पूर्ण भुगतान प्राप्त / Received in Full (Cash)
+    </div>
+  </div>
+
+  <!-- CREDIT version (hidden by default) -->
+  <div id="pay-credit" class="payment-section" style="display:none;">
+    <div class="pay-title">भुगतान विवरण / Payment Details</div>
+    <div><strong>भुगतान की तिथि / Due Date:</strong> 1 नवम्बर 2026 / 1 November 2026</div>
+    <div><strong>अग्रिम भुगतान / Advance Paid:</strong> ₹500.00</div>
+    <div class="balance-due" style="margin-top:4px;">
+      <strong>शेष राशि / Balance Due: ₹4,049.50</strong>
+    </div>
+  </div>
+
+  <!-- ── SECTION 6: Footer ──────────────────────────────────────────────── -->
+  <div class="footer">
+    <div class="footer-terms">
+      <strong>नियम एवं शर्तें / Terms &amp; Conditions:</strong><br>
+      १. बेचा हुआ माल वापस नहीं होगा।<br>
+      २. विवाद की स्थिति में न्यायालय क्षेत्र सीकर होगा।<br>
+      ३. कृपया बिल संभाल कर रखें।
+    </div>
+    <div class="footer-sign">
+      <div>अधिकृत हस्ताक्षर / Authorised Signatory</div>
+      <div class="sign-line">Ramji Agro Centre</div>
+    </div>
+  </div>
+
+</div><!-- end .page-wrap -->
+
+
+<!-- ── Toggle script (demo only) ───────────────────────────────────────────── -->
+<script>
+  var isCredit = false;
+
+  function toggleCredit() {
+    isCredit = !isCredit;
+
+    var badge     = document.getElementById('badge');
+    var watermark = document.getElementById('watermark');
+    var payCash   = document.getElementById('pay-cash');
+    var payCredit = document.getElementById('pay-credit');
+
+    if (isCredit) {
+      badge.textContent = 'उधार / CREDIT';
+      badge.className   = 'badge badge-credit';
+      watermark.textContent = 'DUPLICATE';
+      payCash.style.display   = 'none';
+      payCredit.style.display = 'block';
+    } else {
+      badge.textContent = 'नकद / CASH';
+      badge.className   = 'badge badge-cash';
+      watermark.textContent = 'ORIGINAL';
+      payCash.style.display   = 'block';
+      payCredit.style.display = 'none';
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,26 +1,439 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --radius: 0.5rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  /* === LIGHT MODE === */
+  /* Surfaces — canvas vs elevated cards (canvas deliberately darker so it reads as “not white”) */
+  --background: 240 8% 92%;
+  --foreground: 240 6% 10%;             /* near-black text */
+  --card: 0 0% 100%;
+  --card-foreground: 240 6% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 6% 10%;
+
+  /* Muted / secondary — inset chips; slightly darker than page canvas */
+  --muted: 240 8% 88%;
+  --muted-foreground: 240 4% 46%;       /* secondary text */
+  --secondary: 240 8% 88%;
+  --secondary-foreground: 240 6% 10%;
+
+  /* Borders & inputs — slightly stronger for readable chrome */
+  --border: 240 6% 85%;
+  --input: 240 6% 85%;
+  --ring: 142 71% 45%;                  /* green focus ring */
+
+  /* Brand — green accent */
+  --primary: 142 71% 45%;               /* #22C55E vibrant agri green */
+  --primary-foreground: 0 0% 100%;
+  --primary-muted: 142 76% 96%;         /* very light green tint for backgrounds */
+  --primary-strong: 142 71% 36%;        /* hover */
+
+  /* Semantic */
+  --success: 142 71% 45%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;                /* amber for "low stock", "follow up" */
+  --warning-foreground: 0 0% 100%;
+  --destructive: 0 72% 51%;             /* red for overdue, errors */
+  --destructive-foreground: 0 0% 100%;
+  --info: 217 91% 60%;                  /* blue for neutral info */
+  --info-foreground: 0 0% 100%;
+
+  /* Sidebar — slightly lighter strip than canvas, still not pure white */
+  --sidebar: 240 7% 96%;
+  --sidebar-foreground: 240 6% 10%;
+  --sidebar-border: 240 6% 86%;
+  --sidebar-accent: 240 7% 92%;
+  --sidebar-accent-foreground: 240 6% 10%;
+
+  /* Charts (Recharts) */
+  --chart-1: 142 71% 45%;               /* green */
+  --chart-2: 217 91% 60%;               /* blue */
+  --chart-3: 38 92% 50%;                /* amber */
+  --chart-4: 280 65% 60%;               /* purple */
+  --chart-5: 340 75% 55%;               /* pink */
+
+  /* Background gradient */
+  --bg-gradient: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    hsl(var(--primary) / 0.08),
+    transparent
+  );
+}
+
+/* Authenticated app — main scroll region: subtle top wash over canvas */
+.app-main-canvas {
+  background-color: hsl(var(--background));
+  background-image: var(--bg-gradient);
+  background-repeat: no-repeat;
+  background-size: 100% min(42vh, 22rem);
+  background-position: top center;
+}
+
+.dark {
+  /* === DARK MODE === */
+  /* Surfaces */
+  --background: 240 10% 4%;             /* near-black, slight warm tint like Linear */
+  --foreground: 0 0% 98%;
+  --card: 240 8% 7%;                    /* one shade lighter than bg */
+  --card-foreground: 0 0% 98%;
+  --popover: 240 8% 6%;
+  --popover-foreground: 0 0% 98%;
+
+  /* Muted */
+  --muted: 240 5% 11%;
+  --muted-foreground: 240 5% 65%;
+  --secondary: 240 5% 11%;
+  --secondary-foreground: 0 0% 98%;
+
+  /* Borders */
+  --border: 240 6% 15%;                 /* subtle dark border */
+  --input: 240 6% 15%;
+  --ring: 142 71% 45%;
+
+  /* Brand */
+  --primary: 142 71% 45%;
+  --primary-foreground: 0 0% 100%;
+  --primary-muted: 142 50% 12%;         /* dark green tint */
+  --primary-strong: 142 71% 55%;
+
+  /* Semantic */
+  --success: 142 71% 45%;
+  --success-foreground: 0 0% 100%;
+  --warning: 38 92% 50%;
+  --warning-foreground: 240 10% 4%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --info: 217 91% 60%;
+  --info-foreground: 0 0% 100%;
+
+  /* Sidebar */
+  --sidebar: 240 10% 3%;                /* slightly darker than main bg */
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-border: 240 6% 12%;
+  --sidebar-accent: 240 6% 10%;
+  --sidebar-accent-foreground: 0 0% 98%;
+
+  /* Charts */
+  --chart-1: 142 71% 50%;
+  --chart-2: 217 91% 65%;
+  --chart-3: 38 92% 55%;
+  --chart-4: 280 65% 65%;
+  --chart-5: 340 75% 60%;
+
+  /* Background gradient - richer in dark mode */
+  --bg-gradient: radial-gradient(
+    ellipse 100% 50% at 50% -10%,
+    hsl(var(--primary) / 0.08),
+    transparent 60%
+  );
+}
+
+* {
+  border-color: hsl(var(--border));
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsl(var(--background));
+  background-image: var(--bg-gradient);
+  background-attachment: fixed;
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+}
+
+/* Subtle grid pattern for auth pages */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, hsl(var(--border) / 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--border) / 0.4) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent);
+}
+
+/* Custom scrollbar — Linear style */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 5px;
+  border: 2px solid hsl(var(--background));
+}
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.3); }
+
+/* Selection */
+::selection {
+  background: hsl(var(--primary) / 0.2);
+  color: hsl(var(--foreground));
+}
+
+/* Shimmer skeleton animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    hsl(var(--muted) / 0.5) 50%,
+    hsl(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+  border-radius: var(--radius-md);
+}
+
+/* Interactive card hover states */
+.card-interactive {
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-interactive:hover {
+  border-color: hsl(var(--foreground) / 0.15);
+  box-shadow:
+    0 1px 0 0 hsl(var(--foreground) / 0.04) inset,
+    0 4px 12px -4px hsl(var(--foreground) / 0.08),
+    0 8px 24px -8px hsl(var(--foreground) / 0.06);
+  transform: translateY(-1px);
+}
+
+.dark .card-interactive {
+  box-shadow:
+    0 1px 0 0 hsl(0 0% 100% / 0.04) inset,
+    0 0 0 1px hsl(var(--border));
+}
+
+.dark .card-interactive:hover {
+  border-color: hsl(var(--foreground) / 0.2);
+  box-shadow:
+    0 1px 0 0 hsl(0 0% 100% / 0.06) inset,
+    0 0 0 1px hsl(var(--primary) / 0.2),
+    0 8px 24px -8px hsl(var(--primary) / 0.15);
+}
+
+/* Disable user-select on UI chrome */
+.select-none {
+  user-select: none;
+}
+
+/* Print Styles */
+@media print {
+  /* Hide UI chrome */
+  .no-print, aside, header, nav, button:not(.print-keep) { display: none !important; }
+  
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+  
+  /* Invoice specific */
+  .print-invoice, .print-id-card {
+    width: 100%;
+    max-width: 100%;
+    page-break-after: always;
+    padding: 20mm;
+  }
+  
+  /* Prevent breaking inside elements */
+  .print-no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  
+  /* Table styles for invoices */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  /* Ensure colors print */
+  * {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+/* ── Tally Mode (scoped; does not alter Business Engine tokens) ── */
+.tally-scope,
+.tally-scope * {
+  font-family: 'Inter', system-ui, sans-serif !important;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.tally-scope {
+  --tally-bg: #fff8e7;
+  --tally-text: #000000;
+  --tally-text-muted: #555555;
+  --tally-border: #aaaaaa;
+  --tally-panel-border: #aaaaaa;
+  --tally-separator: #dddddd;
+  --tally-green: #1b5e20;
+  --tally-green-bg: #e8f5e9;
+  --tally-yellow: #ffd700; /* legacy token; calculator / accents */
+  --tally-right-bar-bg: #f5f5f5;
+  --tally-right-bar-hover: #ebebeb;
+  --tally-right-bar-divider: #cccccc;
+  --tally-yellow-text: #000000;
+  --tally-blue: #1976d2;
+  --tally-selected-bg: #0d47a1;
+  --tally-selected-text: #ffffff;
+  --tally-warning: #d32f2f;
+  --tally-input-bg: #ffffff;
+  --tally-input-focus: #ffeb3b;
+
+  --tally-title-bar-bg: #1b5e20;
+  --tally-title-bar-border: #0d3d0f;
+  --tally-tab-strip-bg: #d8d8d8;
+  --tally-tab-inactive-bg: #e0e0e0;
+  --tally-tab-inactive-text: #444444;
+  --tally-tab-active-text: #1b5e20;
+  --tally-content-panel-bg: #ffffff;
+  --tally-section-heading: #5a5a5a;
+
+  background: #fff8e7;
+  color: #000000;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Portaled / global UI overlapping Tally — body class toggled from TallyShell only */
+body.tally-route-active #__next-build-watcher,
+body.tally-route-active [data-nextjs-dev-tools-button],
+body.tally-route-active button[aria-label='Open Next.js Dev Tools'],
+body.tally-route-active #webpack-dev-server-client-overlay,
+body.tally-route-active .intercom-launcher,
+body.tally-route-active [id^='intercom-'],
+body.tally-route-active iframe[title*='Intercom'] {
+  display: none !important;
+}
+
+/* Fixed bottom-right circular / chip controls (e.g. leaked profile avatar) */
+body.tally-route-active .fixed.bottom-4.right-4,
+body.tally-route-active .fixed.bottom-5.right-5,
+body.tally-route-active .fixed.bottom-6.right-6,
+body.tally-route-active .fixed.bottom-8.right-8 {
+  display: none !important;
+}
+
+/* Same leakage if ever mounted under .tally-scope */
+.tally-scope .fixed.bottom-4.right-4,
+.tally-scope .fixed.bottom-5.right-5,
+.tally-scope .fixed.bottom-6.right-6,
+.tally-scope .fixed.bottom-8.right-8 {
+  display: none !important;
+}
+
+.dark .tally-scope {
+  --tally-bg: #1a1f1b;
+  --tally-text: #e8f5e9;
+  --tally-text-muted: #9ca89d;
+  --tally-border: #6b7a6d;
+  --tally-panel-border: #6b7a6d;
+  --tally-separator: #3d4d3f;
+  --tally-green: #c8e6c9;
+  --tally-green-bg: #1b5e20;
+  --tally-yellow: #ffd54f;
+  --tally-yellow-text: #1a1f1b;
+  --tally-input-bg: #252b27;
+  --tally-input-focus: #3e4a40;
+
+  --tally-title-bar-bg: #143218;
+  --tally-title-bar-border: #0a1f0c;
+  --tally-tab-strip-bg: #252b27;
+  --tally-tab-inactive-bg: #2f3632;
+  --tally-tab-inactive-text: #b8c4bb;
+  --tally-tab-active-text: #a5d6a7;
+  --tally-content-panel-bg: #1e2420;
+  --tally-section-heading: #9ca89d;
+
+  background: var(--tally-bg);
+  color: var(--tally-text);
+}
+
+.tally-scope .tally-input {
+  background: var(--tally-input-bg);
+  border: 1px solid var(--tally-border);
+  color: var(--tally-text);
+  padding: 2px 6px;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.tally-scope .tally-input:focus {
+  background: var(--tally-input-focus);
+  outline: 2px solid var(--tally-blue);
+  outline-offset: -2px;
+}
+
+.tally-scope .tally-button-bar-btn {
+  background: var(--tally-right-bar-bg);
+  color: #222222;
+  padding: 4px 8px;
+  border: none;
+  border-bottom: 1px solid var(--tally-right-bar-divider);
+  border-radius: 0;
+  box-shadow: none;
+  font-size: 12px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
+
+.tally-scope .tally-button-bar-btn:hover {
+  background: var(--tally-right-bar-hover);
+}
+
+.tally-scope .tally-button-bar-btn .tally-btn-shortcut,
+.tally-scope .tally-button-bar-btn .shortcut {
+  color: #1b5e20 !important;
+  font-weight: 700 !important;
+}
+
+.tally-scope .tally-button-bar-btn .tally-btn-colon {
+  color: #888888 !important;
+  font-weight: 400 !important;
+}
+
+.tally-scope .tally-button-bar-btn .tally-btn-label {
+  color: #222222 !important;
+  font-weight: 400 !important;
+}
+
+.dark .tally-scope .tally-button-bar-btn .tally-btn-shortcut,
+.dark .tally-scope .tally-button-bar-btn .shortcut {
+  color: #1b5e20 !important;
+  font-weight: 700 !important;
+}
+
+.dark .tally-scope .tally-button-bar-btn .tally-btn-label {
+  color: #222222 !important;
+}
+
+.dark .tally-scope .tally-button-bar-btn .tally-btn-colon {
+  color: #888888 !important;
+}
+
+.dark .tally-scope .tally-button-bar-btn {
+  color: #222222;
 }
