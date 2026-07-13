@@ -1,14 +1,22 @@
 import { createBrowserClient } from '@supabase/ssr';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY');
+  const message = '[Supabase] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY';
+  if (typeof window !== 'undefined') {
+    // In the browser this is a real misconfiguration — fail loudly.
+    throw new Error(message);
+  }
+  // During `next build` prerendering this module can be evaluated on the
+  // server before build-time env vars are wired up; warn instead of
+  // throwing so a single misconfigured page doesn't abort the whole build.
+  console.error(message);
 }
 
 export function createClient() {
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  return createBrowserClient(supabaseUrl ?? '', supabaseAnonKey ?? '');
 }
 
 // Export a singleton instance for use in client components
