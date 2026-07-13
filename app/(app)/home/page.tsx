@@ -52,6 +52,7 @@ import { AnimatedNumber } from '@/components/ui/animated-number';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageTransition } from '@/components/common/PageTransition';
 import { AgriAlertStrip } from '@/components/dashboard/AgriAlertStrip';
+import { AiInsightsCard } from '@/components/dashboard/AiInsightsCard';
 import { formatINR } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import type { CropStage, Farmer, Sale, Visit } from '@/constants/types';
@@ -994,6 +995,8 @@ export default function HomePage() {
           </motion.section>
 
           <AgriAlertStrip />
+
+          <AiInsightsCard />
 
           {/* KPI row */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
